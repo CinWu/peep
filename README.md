@@ -3,7 +3,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 
 **Group**: Terrance Liang, Ling Dong, Cindy Wu, Tyler (Tianshi) Wang
 
-###To Do:
+#####To Do:
 - [ ] create html files
 - [ ] download bootstrap
 - [ ] set up a server
