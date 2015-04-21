@@ -16,7 +16,11 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 - [ ] Backend
   -  [ ] Profile Register
   -  [ ] Login/Logout
+  -  [ ] Facebook API
   -  [ ] Make Event
   -  [ ] Search
   -  [ ] Chat System
+  -  [ ] Google Maps API
+  -  [ ] Event Organization
+  -  [ ] Notifications/Requests
 - [ ] Set up a server
