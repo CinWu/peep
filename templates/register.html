@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block text %}
+<center>
+  {% if loggedin == True %}
+  <font size=20 face="License Plate">You are already logged in!</font><br>
+  <br><br>
+  <a href="/logout" id="white" type = "submit"> Logout </a>
+  {% endif %}
+
+  {% if page==2 or page==3 and loggedin==False %}
+  <script>
+    $( "#fb" ).tooltip({ content: "<img src='../static/demo.png'" });
+								 </script>
+  <div class="turq">
+    <font size=20 face="License Plate">Register</font>
+    <font color="red"><b>{{reason}}</b></font>
+    <form action="register" method="post">
+      <input required type="text" name="username" placeholder="Username"></input>
+      <br>
+      <input required type="password" name="password" placeholder="Password"></input>
+      <input required type="password" name="password2" placeholder="Retype Password">
+      <br>
+      <br>
+      <input required type="text" name="first" placeholder="First Name"></input><br>
+      <input required type="text" name="last" placeholder="Last Name"></input><br><br>
+      <input required type="email" name="email" placeholder="E-mail"></input>
+      <input required type="email" name="email2" placeholder="Retype E-mail"></input><br>
+      <input required type="number" pattern=".{10,10}" name="phone" placeholder="Phone Number"></input><br>
+      <input type="text" name="facebook" id="fb" placeholder="Facebook Profile URL"></input><br>
+      {% if page == 2%}
+
+      {% endif %}
+      <div>
+	<style scoped>
+	  .button-small {
+	  font-size: 85%;
+	  }
+	</style> <br>
+	<button type="submit">Register</button><br><br><br><br><br>
+      </div>
+    </form>
+    {% endif %}
+
+    {% if page==1 %}
+    <font size=20 face="License Plate"> You have successfully registered!</font>
+    {% endif %}
+</center>
+{% endblock %}
+
+</div>
+</div>
