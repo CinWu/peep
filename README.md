@@ -4,6 +4,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 **Group**: Terrance Liang, Ling Dong, Cindy Wu, Tyler (Tianshi) Wang
 
 #####To Do:
+######Finish by Weekend of May 3rd
 - [ ] Create HTML files
   -  [ ] Base File
   -  [ ] Home Page
@@ -17,10 +18,12 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
   -  [ ] Profile Register
   -  [ ] Login/Logout
   -  [ ] Facebook API
+######Finish by Weekend of Weekend of May 10th
   -  [ ] Make Event
   -  [ ] Search
-  -  [ ] Chat System
   -  [ ] Google Maps API
   -  [ ] Event Organization
+######Finish by Weekend of May 17th
   -  [ ] Notifications/Requests
+  -  [ ] Private Messages
 - [ ] Set up a server
