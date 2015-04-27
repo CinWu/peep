@@ -19,7 +19,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
   -  [ ] Login/Logout
   -  [ ] Facebook API
 
-######Finish by Weekend of Weekend of May 10th
+######Finish by Weekend of May 10th
 
   -  [ ] Make Event
   -  [ ] Search
@@ -31,3 +31,5 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
   -  [ ] Notifications/Requests
   -  [ ] Private Messages
 - [ ] Set up a server
+
+######Bug fixes, finalize project by Weekend of May 24th
