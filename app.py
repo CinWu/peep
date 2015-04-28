@@ -10,10 +10,6 @@ app = Flask(__name__)
 def home():
     return render_template("base.html")
 
-@app.route("/login",methods=['GET','POST'])
-def login():
-    return render_template("base.html")
-
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     ids=manager.getIDs()
@@ -106,6 +102,56 @@ def register():
    else:
       return render_template("register.html", page=3, loggedin=loggedin, username=username, ids=ids) 
 
+@app.route("/login",methods=['GET','POST'])
+def login():
+   ids= manager.getIDs()
+   if 'username' in session:
+      if request.method=='POST':
+         if request.form["submit"] == "Go":
+            if manager.getProfilePath() != "profile/":
+               return redirect(manager.getProfilePath())
+      luser = session['username']
+      return render_template("login.html", loggedin=True, username=luser,ids=ids)
+
+   if request.method=='POST':
+      
+      username = request.form['username']
+      password = request.form['password']
+      print 'Username and Password have been recorded as variables'
+      
+      exists = False
+      loggedin = False
+      reason = ""
+      
+      conn = sqlite3.connect("databases/users.db")
+      c = conn.cursor()
+
+      c.execute("select * from uinfo")
+
+      tabledata = c.fetchall()
+      for d in tabledata:
+         if username == d[0]:
+            exists = True
+            savedpass = d[1]
+
+      conn.close()
+
+      if exists == False:
+         reason = "The username "+ username + " does not exist."
+            
+      if (exists == True and savedpass == password):
+         loggedin = True
+
+      if (exists == True and savedpass != password):
+         reason = "Your username and password do not match"
+ 
+      if loggedin:
+         session['username']=username
+      
+      return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids)
+   else:
+      print session
+      return render_template("login.html", loggedin=False, ids=ids)
 
 
 if __name__ == "__main__":

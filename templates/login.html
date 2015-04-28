@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block text %}
+
+	{% if loggedin == True %}
+	You are logged in as {{username}}<br>
+	You will be automatically redirected to the home page in 3 seconds.
+	<meta http-equiv="refresh" content="3;url=/" />
+	<br><br>
+	<a class="pure-button" href="/logout" type = "submit"> Logout </a>
+
+	{% endif %}
+	
+	{% if loggedin == False %}
+	<center>
+	<font class="turq">
+	  <h2>Login</h2>
+	  <form action="login" method="post">
+	    Username:  <input required type="text" name="username"></input>
+	    <br>
+	    Password:&nbsp <input required type="password" name="password"></input>
+	    <br>
+	    <b>{{reason}}</b>
+	    <br>
+	    <div>
+	      <style scoped>
+		
+		.button-small {
+		font-size: 85%;
+		}
+	      </style>
+	      <button class="button-small pure-button" type="submit">Login</button>
+	    </div>
+	  </form>
+	  <br>Don't have an account? <a href="/register">Register Here!</a>
+	  
+	</font>
+	</center>
+	{% endif %}    
+	
+      </div>
+    </div>
+{% endblock %}

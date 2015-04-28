@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block text %}
+	{% if previous==True %}
+	You have successfully logged out.
+	<meta http-equiv="refresh" content="3;url=/" />
+	{% endif %}
+	{% if previous==False %}
+	You are not logged in yet.
+	{% endif %}
+	<hr>
+      </div>
+    </div>
+{% endblock %}
