@@ -6,7 +6,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 #####To Do:
 ######Finish by Weekend of May 3rd
 - [ ] Create HTML files
-  -  [ ] Base File
+  -  [x] Base File
   -  [ ] Home Page
   -  [ ] Profile Page
   -  [ ] Search Results Page
@@ -15,9 +15,9 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
   -  [ ] Base CSS (Bootstrap)
   -  [ ] User Interaction (Javascript)
 - [ ] Backend
-  -  [ ] Database  
-  -  [ ] Profile Register
-  -  [ ] Login/Logout
+  -  [x] Database  
+  -  [x] Profile Register
+  -  [x] Login/Logout
   -  [ ] Facebook API
 
 ######Finish by Weekend of May 10th
