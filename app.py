@@ -110,11 +110,6 @@ def register():
 def login():
    ids= manager.getIDs()
    if 'username' in session:
-      if request.method=='POST':
-         if request.form["submit"] == "Go":
-            if manager.getProfilePath() != "profile/":
-               return redirect(manager.getProfilePath())
-      luser = session['username']
       return render_template("login.html", loggedin=True, username=luser,ids=ids)
 
    if request.method=='POST':
@@ -160,8 +155,12 @@ def login():
 @app.route("/<username>",methods=['GET','POST'])
 def profile(username=None):
     ids=manager.getIDs()
-    if username in ids:
-        return render_template("profile.html",username=username)
+    if username in ids and 'username' in session:
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
+        return render_template("profile.html",username=username,first=first,last=last,phone=phone,email=email )
     else:
         return render_template("base.html")
 

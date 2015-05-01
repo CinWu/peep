@@ -33,6 +33,47 @@ def validateEntry(entry):
             return "You can't use this character. Special characters allowed: " + specialChars
     return ""
 
+def getItem(table,ovalue,oindex,rindex):
+    conn = sqlite3.connect("databases/users.db")
+    c = conn.cursor()
+    command = "select * from '" + table +"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    for d in tabledata:
+        if ovalue==d[oindex]:
+            value = d[rindex]
+    conn.close()
+    return value
+
+def getFirst(n):
+    first = getItem("uinfo",n,0,2)
+    return first
+        
+def getLast(n):
+    last = getItem("uinfo",n,0,3)
+    return last
+        
+def getPhone(n):
+    phone = getItem("uinfo",n,0,4)
+    return phone
+
+def getEmail(n):
+    email = getItem("uinfo",n,0,5)
+    return email
+        
+def getFacebook(n):
+    facebook = getItem("uinfo",n,0,6)
+    return facebook
+        
+def getDefaultPath(n):
+    fid=""
+    rfacebook=getFacebook(n)[::-1]
+    for n in rfacebook:
+        if (n == "/"):
+            break
+        else:
+            fid = n +fid
+    return fid
 
 def userNotifTable(username):
     conn = sqlite3.connect('databases/notif.db')
@@ -43,3 +84,12 @@ def userNotifTable(username):
     cursor.execute(command)
     # Insert a row of data
     conn.close()
+
+def addEvent():
+    pass
+
+def getEvents():
+    pass
+
+def remEvent():
+    pass
