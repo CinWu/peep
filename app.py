@@ -10,6 +10,10 @@ app = Flask(__name__)
 def home():
     return render_template("base.html")
 
+@app.route("/testing", methods=['GET','POST'])
+def base():
+    return render_template("basic.html")
+
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     ids=manager.getIDs()
