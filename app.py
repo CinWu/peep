@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session,redirect,url_for
 import csv
-import sqlite3,unicodedata, requests
+import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
 
@@ -157,6 +157,13 @@ def login():
       print session
       return render_template("login.html", loggedin=False, ids=ids)
 
+@app.route("/<username>",methods=['GET','POST'])
+def profile(username=None):
+    ids=manager.getIDs()
+    if username in ids:
+        return render_template("profile.html",username=username)
+    else:
+        return render_template("base.html")
 
 if __name__ == "__main__":
     app.debug = True
