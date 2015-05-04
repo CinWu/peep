@@ -10,7 +10,6 @@ def getIDs():
     c = conn.cursor()
     c.execute("select * from uinfo")
     tabledata = c.fetchall()
-    print tabledata
     for d in tabledata:
         ids.append(d[0]);
         conn.close()
@@ -95,7 +94,6 @@ def getEvents():
     c = conn.cursor()
     c.execute("select * from events")
     tabledata = c.fetchall()
-    print tabledata
     for d in tabledata:
         events.append(d[1]);
         conn.close()
