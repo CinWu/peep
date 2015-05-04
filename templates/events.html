@@ -1,7 +1,19 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 {% block text %}
 
 <h2> Events </h2>
-
+<hr>
 <script src="static/js/events.js"></script>
+
+
+{% for event in data %}
+<div class='row'>
+  <div class='col-md-offset-1'>
+    <h3>{{ event[1] }}</h3>
+    <i>Posted by {{ event[0] }}</i>
+  </div>
+</div>
+<br>
+{% endfor %}
+
 {% endblock %}
