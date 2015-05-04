@@ -10,6 +10,7 @@ def getIDs():
     c = conn.cursor()
     c.execute("select * from uinfo")
     tabledata = c.fetchall()
+    print tabledata
     for d in tabledata:
         ids.append(d[0]);
         conn.close()
@@ -85,11 +86,29 @@ def userNotifTable(username):
     # Insert a row of data
     conn.close()
 
-def addEvent():
+def addEvent():    
     pass
 
 def getEvents():
-    pass
+    events=[]
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    c.execute("select * from events")
+    tabledata = c.fetchall()
+    print tabledata
+    for d in tabledata:
+        events.append(d[1]);
+        conn.close()
+    events[:]=[unicodedata.normalize('NFKD',o).encode('ascii','ignore') for o in events]
+    return events
 
 def remEvent():
     pass
+
+def getEventData():
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select * from events"
+    c.execute(command)
+    tabledata=c.fetchall()
+    return tabledata
