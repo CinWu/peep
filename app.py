@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session,redirect,url_for
+from flask import Flask, render_template, request, session,redirect,url_for, flash
 import csv
 import sqlite3,unicodedata
 from utils import manager
@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 @app.route("/",methods=['GET','POST'])
 def home():
-    print manager.getIDs()
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -183,6 +182,10 @@ def create_event():
             conn.commit()
             print 'event created'
             conn.close()
+
+        else:
+            flash("Login to create an event!")
+            return redirect('/login')
             
     return redirect('/')
 
