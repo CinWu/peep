@@ -86,8 +86,11 @@ def userNotifTable(username):
     conn.close()
 
 def addEvent():    
-    pass
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    conn.close()
 
+#date-time,eventname,username,description,location,time,tags    
 def getEvents():
     events=[]
     conn = sqlite3.connect("databases/events.db")
@@ -101,7 +104,9 @@ def getEvents():
     return events
 
 def remEvent():
-    pass
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    conn.close()
 
 def getEventData():
     conn = sqlite3.connect("databases/events.db")
