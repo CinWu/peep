@@ -14,6 +14,10 @@ def home():
 def about():
     return render_template("about.html")
 
+@app.route("/create", methods=['GET', 'POST'])
+def create():
+    return render_template("create.html")
+
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     ids=manager.getIDs()
