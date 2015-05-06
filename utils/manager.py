@@ -85,27 +85,19 @@ def userNotifTable(username):
     # Insert a row of data
     conn.close()
 
-def addEvent():    
+def addEvent(datetime,event,user,desc,loc,time,tags):    
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
+    command = "INSERT INTO 'events' (datetime,eventname,username,description, location, time, tags) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"')"
+    c.execute(command)
     conn.close()
 
 #date-time,eventname,username,description,location,time,tags    
-def getEvents():
-    events=[]
+def remEvent(datetime,event,user):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    c.execute("select * from events")
-    tabledata = c.fetchall()
-    for d in tabledata:
-        events.append(d[1]);
-        conn.close()
-    events[:]=[unicodedata.normalize('NFKD',o).encode('ascii','ignore') for o in events]
-    return events
-
-def remEvent():
-    conn = sqlite3.connect("databases/events.db")
-    c = conn.cursor()
+    command = "DELETE FROM 'events' WHERE datetime='" + datetime + "' AND eventname='"+event+"' AND username='"+user+"'"
+    c.execute(command)
     conn.close()
 
 def getEventData():
@@ -114,4 +106,5 @@ def getEventData():
     command = "select * from events"
     c.execute(command)
     tabledata=c.fetchall()
+    conn.close()
     return tabledata

@@ -10,8 +10,12 @@
 <div class='row'>
   <div class='col-md-offset-1'>
     <h3>{{ event[1] }}</h3>
-    <i>Posted by {{ event[0] }}</i>
+    <i>Posted by {{ event[2] }} &tbsp {{ event[0] }}</i>
   </div>
+  <b> Location: </b> {{ event[4] }} <br>
+  <b> Time: </b> {{ event[5] }} <br>
+    {{ event[3] }} <br>
+    <b>Tags: </b> {{ event[6] }}<br>
 </div>
 <br>
 {% endfor %}
