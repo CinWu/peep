@@ -31,13 +31,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 		
-		<!-- <li class="dropdown">
-		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Browse<span class="caret"></span></a>
+		<li class="dropdown">
+		  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Browse<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    <li><a href="#">temp</a></li>
 		    <li><a href="#">temp2</a></li>
 		  </ul>
-		</li> -->
+		</li>
 		
 		<form class="navbar-form navbar-left" role="search">
 		  <div class="form-group">
@@ -67,7 +67,8 @@
     </nav>
    
     <div id="content" class="container">
-        {% block text %}
+      <br><br><br><br>
+      {% block text %}
 	<h2>Welcome!<h2>
         {% endblock %}
     </div>
@@ -78,7 +79,6 @@
         </div>
     </div>
 
-    
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
