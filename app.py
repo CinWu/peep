@@ -3,6 +3,10 @@ import csv
 import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
+import facebook
+
+FACEBOOK_APP_ID = '574751582627457'
+FACEBOOK_APP_SECRET = '27ce6a343cd1d7e13adb3e8561d4dbaf'
 
 app = Flask(__name__)
 
