@@ -4,7 +4,7 @@ import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
 #install facebook-sdk
-import facebook
+#import facebook
 
 FACEBOOK_APP_ID = '378920438974120'
 FACEBOOK_APP_SECRET = 'b6062e3515963deff605a9538c45f675'
@@ -24,8 +24,35 @@ def about():
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
-    return render_template("create.html")
-
+    ids=manager.getIDs()
+    if 'username' in session:
+        loggedin=True
+        if request.method=='POST':
+            username=session['username']
+            if request.method=='POST':
+                if request.form["submit"] == "Go":
+                    if manager.getProfilePath() != "profile/":
+                        return redirect(manager.getProfilePath())
+                if request.form["submit"]=="Create Event":
+                    event = request.form["event"]
+                    location = request.form["location"]
+                    date=request.form["data"]+" " + request.form["time"]
+                    description = request.form["description"]
+                    datetime = datetime.datetime
+                    tags = request.form["tags"]
+                    print event
+                    print location
+                    print date
+                    print description
+                    print datetime
+                    print tags
+                    manager.addEvent(datetime,event,username,descirption,location,date,tags)
+                    return redirect("/events")
+        else:
+            return render_template("makeEvents.html",loggedin=loggedin,ids=ids)
+    else:
+        return render_template("makeEvents.html",loggedin=False,ids=ids)
+  
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     ids=manager.getIDs()
