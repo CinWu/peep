@@ -3,15 +3,19 @@ import csv
 import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
+#install facebook-sdk
 import facebook
 
-FACEBOOK_APP_ID = '574751582627457'
-FACEBOOK_APP_SECRET = '27ce6a343cd1d7e13adb3e8561d4dbaf'
+FACEBOOK_APP_ID = '378920438974120'
+FACEBOOK_APP_SECRET = 'b6062e3515963deff605a9538c45f675'
+ACCESS_TOKEN = 'CAAFYoEopxqgBAFArJ7SzIAy2ZC68iGzOIuXXlLQpWx3zOZBo4d3FRv0Kc2xBjd32x9jZCYccZAtA7suEZCyvZBoI3j4mPBhdpIJs0tuBZBnAYqgKlK4GRJgNCjBBKZAOm1XtPxn4iWaZBV7bYG1jvmdecq4sgvlJYzjZA9XW66puClWwj2x41dBdcWXt15rNE1C3haA36ZA4YqUJHJIMbkVpJ0X&expires=5184000'
 
 app = Flask(__name__)
 
 @app.route("/",methods=['GET','POST'])
 def home():
+    graph = facebook.GraphAPI(ACCESS_TOKEN)
+    print graph
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
