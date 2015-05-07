@@ -9,13 +9,13 @@
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
-    <h3>{{ event[1] }}</h3>
-    <i>Posted by {{ event[2] }} &tbsp {{ event[0] }}</i>
+    <h3>{{ event[2] }}</h3>
+    <i>Posted by {{ event[3] }} &nbsp {{ event[1] }}</i><br>
+    <b> Location: </b> {{ event[5] }} <br>
+    <b> Time: </b> {{ event[6] }} <br>
+    <b> Description: </{{ event[4] }} <br>
+    <b>Tags: </b> {{ event[7] }}<br>
   </div>
-  <b> Location: </b> {{ event[4] }} <br>
-  <b> Time: </b> {{ event[5] }} <br>
-    {{ event[3] }} <br>
-    <b>Tags: </b> {{ event[6] }}<br>
 </div>
 <br>
 {% endfor %}
