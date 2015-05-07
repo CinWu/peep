@@ -88,16 +88,19 @@ def userNotifTable(username):
 def addEvent(datetime,event,user,desc,loc,time,tags):    
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "INSERT INTO 'events' (datetime,eventname,username,description, location, time, tags) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"')"
+    command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"')"
+    print command
     c.execute(command)
+    conn.commit()
     conn.close()
 
 #date-time,eventname,username,description,location,time,tags    
 def remEvent(datetime,event,user):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "DELETE FROM 'events' WHERE datetime='" + datetime + "' AND eventname='"+event+"' AND username='"+user+"'"
+    command = "DELETE FROM events WHERE datetime='" + datetime + "' AND eventname='"+event+"' AND username='"+user+"'"
     c.execute(command)
+    conn.commit()
     conn.close()
 
 def getEventData():
@@ -107,4 +110,5 @@ def getEventData():
     c.execute(command)
     tabledata=c.fetchall()
     conn.close()
+    print tabledata
     return tabledata

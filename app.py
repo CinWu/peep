@@ -196,7 +196,6 @@ def create_event():
 @app.route("/events", methods=['GET', 'POST'])
 def events():
     data = manager.getEventData()
-    print data
     return render_template('events.html', data=data)
             
 if __name__ == "__main__":
