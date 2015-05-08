@@ -4,7 +4,7 @@ import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
 #install facebook-sdk
-#import facebook
+import facebook
 
 FACEBOOK_APP_ID = '378920438974120'
 FACEBOOK_APP_SECRET = 'b6062e3515963deff605a9538c45f675'
@@ -36,17 +36,17 @@ def create():
                 if request.form["submit"]=="Create Event":
                     event = request.form["event"]
                     location = request.form["location"]
-                    date=request.form["data"]+" " + request.form["time"]
+                    date=request.form["date"]+" "+request.form["time"]
                     description = request.form["description"]
-                    datetime = datetime.datetime
+                    dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     tags = request.form["tags"]
                     print event
                     print location
                     print date
                     print description
-                    print datetime
+                    print dtime
                     print tags
-                    manager.addEvent(datetime,event,username,descirption,location,date,tags)
+                    manager.addEvent(dtime,event,username,description,location,date,tags)
                     return redirect("/events")
         else:
             return render_template("makeEvents.html",loggedin=loggedin,ids=ids)
