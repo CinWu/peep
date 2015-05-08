@@ -13,21 +13,23 @@
     $( "#fb" ).tooltip({ content: "<img src='../static/demo.png'" });
 								 </script>
   <div class="turq">
-    <font size=20 face="License Plate">Register</font>
+    <!--- <font size=20 face="License Plate">Register</font> -->
+    <h2> Register </h2>
     <font color="red"><b>{{reason}}</b></font>
     <form action="register" method="post">
-      <input required type="text" name="username" placeholder="Username"></input>
+      Username: <input required type="text" name="username"></input>
       <br>
-      <input required type="password" name="password" placeholder="Password"></input>
-      <input required type="password" name="password2" placeholder="Retype Password">
+      Password: <input required type="password" name="password"></input><br>
+      Confirm Password: <input required type="password" name="password2">
       <br>
       <br>
-      <input required type="text" name="first" placeholder="First Name"></input><br>
-      <input required type="text" name="last" placeholder="Last Name"></input><br><br>
-      <input required type="email" name="email" placeholder="E-mail"></input>
-      <input required type="email" name="email2" placeholder="Retype E-mail"></input><br>
-      <input required type="number" pattern=".{10,10}" name="phone" placeholder="Phone Number"></input><br>
-      <input type="text" name="facebook" id="fb" placeholder="Facebook Profile URL"></input><br>
+      First Name: <input required type="text" name="first"></input><br>
+      Last Name: <input required type="text" name="last"></input><br><br>
+      Email: <input required type="email" name="email"></input><br>
+      Phone Number: <input required type="number" pattern=".{10,10}" name="phone"></input><br>
+      Facebook URL*: <input type="text" name="facebook" id="fb"></input><br>
+
+     <br><br>*Note: Optional fields. You can update these in your profile later.
       {% if page == 2%}
 
       {% endif %}
