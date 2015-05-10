@@ -3,14 +3,12 @@
 
 <h2> Events </h2>
 <hr>
-<script src="static/js/events.js"></script>
-
 
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
     <h3>{{ event[2] }}</h3>
-    <i>Posted by {{ event[3] }} &nbsp {{ event[1] }}</i><br>
+    <i>Posted by <a href={{event[3]}}>{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
     <b> Location: </b> {{ event[5] }} <br>
     <b> Time: </b> {{ event[6] }} <br>
     <b> Description: <br></b>{{ event[4] }}<br>
