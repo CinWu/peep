@@ -15,11 +15,12 @@
     <!-- Bootstrap theme -->
     <link href="/static/css/bootstrap-theme.min.css" rel="stylesheet">
     
-    <link href="/static/css/main.css" rel="stylesheet">
     <title>peep</title>
 </head>
   
 <body> <!-- start of body -->
+  <script src='../static/js/facebook.js'></script>
+  <script src='../static/js/main.js'></script>
   <div id="fb-root"></div>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
@@ -39,17 +40,19 @@
 		    <li><a href="#">temp2</a></li>
 		  </ul>
 		</li>
-		
-		<form class="navbar-form navbar-left" role="search">
-		  <div class="form-group">
-		    <!--<span class="label label-default">Find</span> -->
-		    Find&nbsp;&nbsp;
-		    <input type="text" class="form-control" placeholder="Peeps">
-		    <input type="text" class="form-control" placeholder="At...">
-		  </div>
-		  <button type="submit" class="btn btn-default">Search</button>
-		  <button type="submit" class="btn btn-default">Create</button>
-		</form>
+		<div id='navbar' class="navbar-form navbar-left">		
+		  <form class="navbar-left" role="search">
+		    <div class="form-group">
+		      <!--<span class="label label-default">Find</span> -->
+		      Find&nbsp;&nbsp;
+		      <input type="text" class="form-control" placeholder="Peeps">
+		      <input type="text" class="form-control" placeholder="At...">
+		    </div>
+		  </form>
+		  &nbsp
+		  <button type="submit" class="btn btn-default" onclick="events()">Search</button>
+		  <button type="submit" class="btn btn-default" onclick="create()">Create</button>
+		</div>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% block navcompright %}
@@ -85,7 +88,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 
 </body>
 </html>
