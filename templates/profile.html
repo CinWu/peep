@@ -3,9 +3,26 @@
 {% block text %}
 <h2>{{username}}'s Profile</h2>
 
-    <b><u>Name:</u></b> {{first}} {{last}}<br>
-    <b><u>Phone:</u></b> {{phone}}<br>
-    <b><u>Email:</u></b> {{email}}<br>
+<table id='profile' class='table'>
+  <tr>
+    <td width='10%'><b>Name</b></td>
+    <td>{{first}} {{last}}<br></td>
+  </tr>
+  <tr>
+    <td><b>Phone</b></td>
+    <td>{{phone}}<br></td>
+  </tr>
+  <tr>
+    <td><b>Email</b></td>
+    <td>{{email}}<br></td>
+  </tr>  
+  <tr>
+    <td><b>Facebook</b></td>
+    <td>{{fb}}<br></td>
+  </tr>  
+  
+</table>    
+
 
 {% endblock %}
 
