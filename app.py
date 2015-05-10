@@ -153,7 +153,6 @@ def login():
         return render_template("login.html", loggedin=True, username=luser,ids=ids)
         
     if request.method=='POST':
-       
         username = request.form['username']
         password = request.form['password']
         print 'Username and Password have been recorded as variables'
@@ -232,6 +231,10 @@ def create_event():
 @app.route("/events", methods=['GET', 'POST'])
 def events():
     data = manager.getEventData()
+    if request.method == "POST":
+        peep = request.form['peep']
+        at = request.form['at']
+    
     return render_template('events.html', data=data)
             
 if __name__ == "__main__":
