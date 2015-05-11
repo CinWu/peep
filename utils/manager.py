@@ -110,5 +110,18 @@ def getEventData():
     c.execute(command)
     tabledata=c.fetchall()
     conn.close()
-    print tabledata
+#    print tabledata
     return tabledata
+
+def eventSearch(keyword):
+    data = getEventData()
+    res = []
+    for e in data:
+        ##Search based on tags
+        tags = e[7].split("#")
+        for t in tags:
+            ##really bad search. Please edit.
+            if ( keyword in t and len(keyword) >= len(t)*.5 ):
+                res.append(e)
+    print res
+    return res

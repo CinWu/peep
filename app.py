@@ -17,6 +17,7 @@ app = Flask(__name__)
 def home():
 #    graph = facebook.GraphAPI(ACCESS_TOKEN)
 #    print graph.get_object('me')
+
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -234,7 +235,8 @@ def events():
     if request.method == "POST":
         peep = request.form['peep']
         at = request.form['at']
-    
+        data = manager.eventSearch(peep)        
+    #if data is null return some text
     return render_template('events.html', data=data)
             
 if __name__ == "__main__":
