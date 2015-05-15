@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
 {% block text %}
 
-<h2> Events </h2>
+{% if data|count > 1 %}
+<h2> Events </h2> <hr>
+{% endif %}
+{% if data|count == 1 %}
+<h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
+<form method="post">
+  {% if button=="request" %}
+  <input type="submit" name="request" value="Request to Join">
+  {% else %}
+  <input type="submit" name="cancel" value="Cancel">
+  {% endif %}
+</form>
 <hr>
+{% endif %}
 
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
+    {% if data|count > 1 %}
     <h3><a href="/events/{{ event[0] }}">{{ event[2] }}</a></h3>
+    {% endif %}
     <i>Posted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
     <b> Location: </b> {{ event[5] }} <br>
     <b> Time: </b> {{ event[6] }} <br>

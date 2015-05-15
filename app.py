@@ -234,16 +234,27 @@ def create_event():
 def events(eventname=None):
     data = manager.getEventData()
     if eventname==None:
-        if request.method == "POST":
-            peep = request.form['peep']
-            at = request.form['at']
-            data = manager.eventSearch(peep)        
+        #if request.method == "POST":
+         #   peep = request.form['peep']
+          #  at = request.form['at']
+           # data = manager.eventSearch(peep)        
             #if data is null return some text
         return render_template('events.html', data=data)
     else:
         newdata=[]
-        newdata.append(data[int(eventname)-1]) 
-        return render_template('events.html',data=newdata)
+        newdata.append(data[int(eventname)-1])
+        if request.method == "POST":
+            username = session['username']
+            if "request" in request.form:
+                print username+" requests to join"
+            if "cancel" in request.form:
+                print username+" cancels membership"    
+        button = "request"
+        #if username in accepted
+        #button = "cancel"
+        #if username in requested
+        #button = "pending"
+        return render_template('events.html', button = button, data=newdata)
 
 if __name__ == "__main__":
     app.debug = True
