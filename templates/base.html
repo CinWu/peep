@@ -56,12 +56,13 @@
 		  </form>
 		  &nbsp
 		  <a id="create" class="btn btn-default" href="/create">Create</a>
+		  <a id="events" class="btn btn-default" href="/events">All Events</a>
 		</div>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% block navcompright %}
 		{% if 'username' in session %}
-	        <a class="navbar-brand" href={{session['username']}}>{{session['username']}}</a>
+	        <a class="navbar-brand" href="/profile/{{session['username']}}">{{session['username']}}</a>
 		<li><a href="/logout">Logout</a></li>
 		{% else %}
 		<li><a href="/register">Sign Up</a></li>

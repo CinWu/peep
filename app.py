@@ -192,7 +192,7 @@ def login():
         print session
         return render_template("login.html", loggedin=False, ids=ids)
 
-@app.route("/<username>",methods=['GET','POST'])
+@app.route("/profile/<username>",methods=['GET','POST'])
 def profile(username=None):
     ids=manager.getIDs()
     if username in ids and 'username' in session:
@@ -229,16 +229,22 @@ def create_event():
             
     return redirect('/')
 
-@app.route("/events", methods=['GET', 'POST'])
-def events():
+@app.route("/events/",methods=['GET','POST'])
+@app.route("/events/<eventname>", methods=['GET', 'POST'])
+def events(eventname=None):
     data = manager.getEventData()
-    if request.method == "POST":
-        peep = request.form['peep']
-        at = request.form['at']
-        data = manager.eventSearch(peep)        
-    #if data is null return some text
-    return render_template('events.html', data=data)
-            
+    if eventname==None:
+        if request.method == "POST":
+            peep = request.form['peep']
+            at = request.form['at']
+            data = manager.eventSearch(peep)        
+            #if data is null return some text
+        return render_template('events.html', data=data)
+    else:
+        newdata=[]
+        newdata.append(data[int(eventname)-1]) 
+        return render_template('events.html',data=newdata)
+
 if __name__ == "__main__":
     app.debug = True
     app.secret_key = "peep"

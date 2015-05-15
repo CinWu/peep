@@ -7,8 +7,8 @@
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
-    <h3>{{ event[2] }}</h3>
-    <i>Posted by <a href={{event[3]}}>{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
+    <h3><a href="/events/{{ event[0] }}">{{ event[2] }}</a></h3>
+    <i>Posted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
     <b> Location: </b> {{ event[5] }} <br>
     <b> Time: </b> {{ event[6] }} <br>
     <b> Description: <br></b>{{ event[4] }}<br>
