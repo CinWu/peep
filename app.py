@@ -17,7 +17,8 @@ app = Flask(__name__)
 def home():
 #    graph = facebook.GraphAPI(ACCESS_TOKEN)
 #    print graph.get_object('me')
-
+    if 'username' in session:
+        return render_template("home.html", session=session)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])

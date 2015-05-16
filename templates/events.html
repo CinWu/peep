@@ -3,6 +3,10 @@
 
 {% if data|count > 1 %}
 <h2> Events </h2> <hr>
+{% else %}
+<h4>We couldn't find any events!</h4>
+<br>
+Why don't you try <a href='/create'>creating</a> one?
 {% endif %}
 {% if data|count == 1 %}
 <h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
