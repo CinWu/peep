@@ -243,6 +243,8 @@ def events(eventname=None):
         return render_template('events.html', data=data, search=True)
     else:
         newdata=[]
+        if int(eventname) > len(data):
+            return render_template("error.html")
         newdata.append(data[int(eventname)-1])
         ##no button if username is not logged in
         button = "none"
