@@ -229,15 +229,15 @@ def create_event():
             
     return redirect('/')
 
-@app.route("/events/",methods=['GET','POST'])
+@app.route("/events",methods=['GET','POST'])
 @app.route("/events/<eventname>", methods=['GET', 'POST'])
 def events(eventname=None):
     data = manager.getEventData()
     if eventname==None:
-        #if request.method == "POST":
-         #   peep = request.form['peep']
-          #  at = request.form['at']
-           # data = manager.eventSearch(peep)        
+        if request.method == "POST":
+            peep = request.form['peep']
+            at = request.form['at']
+            data = manager.eventSearch(peep)        
             #if data is null return some text
         return render_template('events.html', data=data)
     else:
