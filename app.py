@@ -195,7 +195,7 @@ def login():
 @app.route("/profile/<username>",methods=['GET','POST'])
 def profile(username=None):
     ids=manager.getIDs()
-    if username in ids and 'username' in session:
+    if username in ids:
         first = manager.getFirst(username)
         last = manager.getLast(username)
         email = manager.getEmail(username)
@@ -243,13 +243,16 @@ def events(eventname=None):
     else:
         newdata=[]
         newdata.append(data[int(eventname)-1])
-        if request.method == "POST":
-            username = session['username']
-            if "request" in request.form:
-                print username+" requests to join"
-            if "cancel" in request.form:
-                print username+" cancels membership"    
-        button = "request"
+        ##no button if username is not logged in
+        button = "none"
+        if 'username' in session:
+            if request.method == "POST":
+                username = session['username']
+                if "request" in request.form:
+                    print username+" requests to join"
+                if "cancel" in request.form:
+                    print username+" cancels membership"    
+            button = "request"
         #if username in accepted
         #button = "cancel"
         #if username in requested

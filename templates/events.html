@@ -7,7 +7,9 @@
 {% if data|count == 1 %}
 <h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
 <form method="post">
-  {% if button=="request" %}
+  {% if button=="none" %}
+  <a href='/login'>Log in</a> to join this event!
+  {% elif button=="request" %}
   <input type="submit" name="request" value="Request to Join">
   {% else %}
   <input type="submit" name="cancel" value="Cancel">
