@@ -119,9 +119,15 @@ def eventSearch(keyword):
     for e in data:
         ##Search based on tags
         tags = e[7].split("#")
+        name = e[2].split(' ')
+        for n in name:
+            if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
+                res.append(e)
         for t in tags:
             ##really bad search. Please edit.
-            if ( keyword in t and len(keyword) >= len(t)*.5 ):
+            if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 
+                 and e not in res ):
                 res.append(e)
+                
     print res
     return res

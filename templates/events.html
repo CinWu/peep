@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% block text %}
 
-{% if data|count > 1 %}
+
+{% if data|count > 1 or search %}
 <h2> Events </h2> <hr>
-{% else %}
-<h4>We couldn't find any events!</h4>
-<br>
-Why don't you try <a href='/create'>creating</a> one?
-{% endif %}
-{% if data|count == 1 %}
+
+{% elif data|count == 1 and not search %}
 <h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
 <form method="post">
   {% if button=="none" %}
@@ -20,12 +17,18 @@ Why don't you try <a href='/create'>creating</a> one?
   {% endif %}
 </form>
 <hr>
+
+{% else %}
+<h4>We couldn't find any events!</h4>
+<br>
+Why don't you try <a href='/create'>creating</a> one?
+
 {% endif %}
 
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
-    {% if data|count > 1 %}
+    {% if data|count >= 1 %}
     <h3><a href="/events/{{ event[0] }}">{{ event[2] }}</a></h3>
     {% endif %}
     <i>Posted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>

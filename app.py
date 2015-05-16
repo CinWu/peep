@@ -240,7 +240,7 @@ def events(eventname=None):
             at = request.form['at']
             data = manager.eventSearch(peep)        
             #if data is null return some text
-        return render_template('events.html', data=data)
+        return render_template('events.html', data=data, search=True)
     else:
         newdata=[]
         newdata.append(data[int(eventname)-1])
