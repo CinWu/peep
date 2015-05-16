@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block text %}
 
+<!--this search variable is for distinguishing between when the user used the search bar to find the event or not. There were a few problems without this distinction-->
+{% if search %}
+<h2> Events </h2><hr>
+<i> {{ data|count }} event(s) found. </i><br><br>
 
-{% if data|count > 1 or search %}
-<h2> Events </h2> <hr>
-
-{% elif data|count == 1 and not search %}
+{% elif data|count == 1 and search != "" %}
 <h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
 <form method="post">
   {% if button=="none" %}
@@ -18,17 +19,18 @@
 </form>
 <hr>
 
-{% else %}
+{% endif %}
+
+{% if search and data|count == 0 %}
 <h4>We couldn't find any events!</h4>
 <br>
 Why don't you try <a href='/create'>creating</a> one?
-
 {% endif %}
 
 {% for event in data %}
 <div class='row'>
   <div class='col-md-offset-1'>
-    {% if data|count >= 1 %}
+    {% if search or data|count != 1 %}
     <h3><a href="/events/{{ event[0] }}">{{ event[2] }}</a></h3>
     {% endif %}
     <i>Posted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
