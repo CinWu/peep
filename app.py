@@ -256,8 +256,9 @@ def events(eventname=None):
                 if "cancel" in request.form:
                     print username+" cancels membership"    
             button = "request"
-        #if username in accepted
-        #button = "cancel"
+            accepted = manager.getAccepted(eventid)
+            if username in accepted:
+                button = "cancel"
         #if username in requested
         #button = "pending"
         return render_template('events.html', button = button, data=newdata)

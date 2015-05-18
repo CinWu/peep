@@ -92,6 +92,12 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     print command
     c.execute(command)
     conn.commit()
+    c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+'"')
+    data=c.fetchall()
+    idnum= int(data[0][0])
+    command = "CREATE TABLE IF NOT EXISTS '" + idnum +"' (username text, date text)'"
+    c.execute(command)
+    conn.commit()
     conn.close()
 
 #date-time,eventname,username,description,location,time,tags    
@@ -99,6 +105,10 @@ def remEvent(datetime,event,user):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
     command = "DELETE FROM events WHERE datetime='" + datetime + "' AND eventname='"+event+"' AND username='"+user+"'"
+    c.execute(command)
+    data=c.fetchall()
+    idnum= int(data[0][0])
+    command = "drop table '"+idnum+"'"
     c.execute(command)
     conn.commit()
     conn.close()
@@ -131,3 +141,23 @@ def eventSearch(keyword):
                 
     print res
     return res
+
+def getAccepted(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select * from '"+eventid+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    accepted = []
+    for data in tabledata:
+        accepted.append(data[0])
+    return accepted
+
+def getRequests(eventid):
+    conn = sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "select * from '"+eventid+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    #filter better
+    return tabledata
