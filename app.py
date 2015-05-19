@@ -249,18 +249,21 @@ def events(eventname=None):
         ##no button if username is not logged in
         button = "none"
         if 'username' in session:
+            username = session['username']
             if request.method == "POST":
-                username = session['username']
                 if "request" in request.form:
+                    eventdata = manager.getEventData()
+                    manager.makeRequest(eventname,username,eventdata[int(eventname)-1][3])
                     print username+" requests to join"
                 if "cancel" in request.form:
                     print username+" cancels membership"    
             button = "request"
-            accepted = manager.getAccepted(eventid)
+            accepted = manager.getAccepted(eventname)
             if username in accepted:
                 button = "cancel"
-        #if username in requested
-        #button = "pending"
+            requested = manager.getRequests(eventname)
+            if username in requested:
+                button = "pending"
         return render_template('events.html', button = button, data=newdata)
 
 if __name__ == "__main__":

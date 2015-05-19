@@ -92,10 +92,10 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     print command
     c.execute(command)
     conn.commit()
-    c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+'"')
+    c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+"'")
     data=c.fetchall()
     idnum= int(data[0][0])
-    command = "CREATE TABLE IF NOT EXISTS '" + idnum +"' (username text, date text)'"
+    command = "CREATE TABLE IF NOT EXISTS '" + str(idnum) +"' (username text, date text)"
     c.execute(command)
     conn.commit()
     conn.close()
@@ -156,8 +156,17 @@ def getAccepted(eventid):
 def getRequests(eventid):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
-    command = "select * from '"+eventid+"'"
+    command = "select * from 'requests'"
     c.execute(command)
     tabledata=c.fetchall()
     #filter better
     return tabledata
+
+def makeRequest(eventid,username,host):
+    conn = sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "insert into 'requests' (eventid, sender, receiver) values ("+eventid+",'"+username+"','"+host+"')"
+    print command
+    c.execute(command)
+    conn.commit()
+    conn.close()
