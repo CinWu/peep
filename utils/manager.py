@@ -220,8 +220,24 @@ def getRequesters(eventid):
 def removeRequest(eventid, username):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
-    command = "delete from 'requests' where sender='"+username+"'"
+    command = "delete from 'requests' where sender='"+username+"' and eventid="+eventid
     c.execute(command)
     conn.commit()
     conn.close()
 
+def addMember(eventid, username):
+    conn=sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    dtime = datetime.now().strftime('%Y-%m-%d')
+    command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def remMember(eventid, username):
+    conn=sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "delete from '"+str(eventid)+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commi()
+    conn.close()
