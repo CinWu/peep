@@ -18,7 +18,13 @@ def home():
 #    graph = facebook.GraphAPI(ACCESS_TOKEN)
 #    print graph.get_object('me')
     if 'username' in session:
-        return render_template("home.html", session=session)
+        username = session['username']
+        created=manager.getCreated(username)
+        accepted=""
+        pending=[]
+        for e in manager.getPending(username):
+            pending.append(e)
+        return render_template("home.html", session=session, created=created, accepted=accepted, pending=pending)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -256,15 +262,18 @@ def events(eventname=None):
                     manager.makeRequest(eventname,username,eventdata[int(eventname)-1][3])
                     print username+" requests to join"
                 if "cancel" in request.form:
+                    manager.removeRequest(eventname,username)
                     print username+" cancels membership"    
             button = "request"
             accepted = manager.getAccepted(eventname)
-            if username in accepted:
-                button = "cancel"
-            requested = manager.getRequests(eventname)
+            for a in accepted:
+                if username in a:
+                    button = "cancel"
+                    break
+            requested = manager.getRequesters(eventname)
             if username in requested:
                 button = "pending"
-        return render_template('events.html', button = button, data=newdata)
+            return render_template('events.html', button = button, data=newdata)
 
 if __name__ == "__main__":
     app.debug = True

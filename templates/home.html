@@ -8,10 +8,34 @@
     <h2>Welcome!</h2>
     
     {% if 'username' in session %}
-    <h3>Notifications:</h3>
-    <br>
-    <h3>My Events:</h3>
-    <br>
+
+    <div id="notes">
+      <h3>Notifications:</h3>
+      <br>
+      <h3>My Events:</h3>
+      <b>!!!Will fix to show links to events</b>
+      <div id="created">
+	Created Events:
+	<br>
+	{% for c in created %}
+	{{c}}<br>
+	{% endfor %}
+      </div>
+      <div id="accepted">
+	Events Attending:
+	<br>
+	{% for a in accepted %}
+	{{a}}<br>
+	{% endfor %}      
+      </div>
+      <div id="requested">
+	Pending Events:
+	<br>
+	{% for p in pending %}
+	{{p}}<br>
+	{% endfor %}
+      </div>
+    </div>
     
     {% endif %}
 

@@ -123,6 +123,16 @@ def getEventData():
 #    print tabledata
     return tabledata
 
+def getEvent(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select 'eventname' from 'events' where id='"+str(eventid)+"'"
+    c.execute(command)
+    data=c.fetchall()
+    conn.close()
+#    print tabledata
+    return data
+    
 def eventSearch(keyword):
     data = getEventData()
     res = []
@@ -141,6 +151,28 @@ def eventSearch(keyword):
                 
     print res
     return res
+
+def getCreated(username):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select * from 'events' where username='"+username+"'"
+    c.execute(command)
+    created = c.fetchall()
+    print created
+    conn.commit()
+    conn.close()
+    return created
+
+def getPending(username):
+    conn = sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "select * from 'requests' where sender='"+username+"'"
+    c.execute(command)
+    pending = c.fetchall()
+    print pending
+    conn.commit()
+    conn.close()
+    return pending
 
 def getAccepted(eventid):
     conn = sqlite3.connect("databases/events.db")
@@ -167,6 +199,29 @@ def makeRequest(eventid,username,host):
     c = conn.cursor()
     command = "insert into 'requests' (eventid, sender, receiver) values ("+eventid+",'"+username+"','"+host+"')"
     print command
+    data = getRequests(eventid)
+    add = True
+    for r in data:
+        if username in r:
+            add = False
+            break
+    if add:
+        c.execute(command)
+        conn.commit()
+    conn.close()
+
+def getRequesters(eventid):
+    requests = getRequests(eventid)
+    requesters = []
+    for r in requests:
+        requesters.append(r[2])
+    return requesters
+
+def removeRequest(eventid, username):
+    conn = sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "delete from 'requests' where sender='"+username+"'"
     c.execute(command)
     conn.commit()
     conn.close()
+
