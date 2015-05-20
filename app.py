@@ -263,12 +263,15 @@ def events(eventname=None):
                     print username+" requests to join"
                 if "cancel" in request.form:
                     manager.removeRequest(eventname,username)
-                    print username+" cancels membership"    
+                    print username+" cancels membership"
+                if "leave" in request.form:
+                    manager.remMember(eventname,username)
+                    print username+" leaves event"
             button = "request"
             accepted = manager.getAccepted(eventname)
             for a in accepted:
                 if username in a:
-                    button = "cancel"
+                    button = "leave"
                     break
             requested = manager.getRequesters(eventname)
             if username in requested:

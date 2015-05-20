@@ -13,8 +13,10 @@
   <a href='/login'>Log in</a> to join this event!
   {% elif button=="request" %}
   <input type="submit" name="request" value="Request to Join">
-  {% else %}
+  {% elif button=="pending" %}
   <input type="submit" name="cancel" value="Cancel">
+  {% else %}
+  <input type="submit" name="leave" value="Leave Event">
   {% endif %}
 </form>
 <hr>

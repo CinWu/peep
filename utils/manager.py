@@ -191,8 +191,11 @@ def getRequests(eventid):
     command = "select * from 'requests'"
     c.execute(command)
     tabledata=c.fetchall()
-    #filter better
-    return tabledata
+    results = []
+    for data in tabledata:
+        if data[1]==int(eventid):
+            results.append(data)
+    return results
 
 def makeRequest(eventid,username,host):
     conn = sqlite3.connect("databases/requests.db")
@@ -201,11 +204,13 @@ def makeRequest(eventid,username,host):
     print command
     data = getRequests(eventid)
     add = True
+    print data
     for r in data:
-        if username in r:
+        if r[2]==username:
             add = False
             break
     if add:
+        print "inserting into database"
         c.execute(command)
         conn.commit()
     conn.close()
