@@ -11,6 +11,8 @@
 <form method="post">
   {% if button=="none" %}
   <a href='/login'>Log in</a> to join this event!
+  {% elif button=="creator" %}
+  You created this event.
   {% elif button=="request" %}
   <input type="submit" name="request" value="Request to Join">
   {% elif button=="pending" %}

@@ -80,7 +80,6 @@ def userNotifTable(username):
     cursor = conn.cursor()
     command= "CREATE TABLE IF NOT EXISTS'" + username +"' (id integer primary key, sender text, piclink text, link text, msg text)"
     # Create table
-    print command
     cursor.execute(command)
     # Insert a row of data
     conn.close()
@@ -89,7 +88,6 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
     command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"')"
-    print command
     c.execute(command)
     conn.commit()
     c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+"'")
@@ -123,14 +121,22 @@ def getEventData():
 #    print tabledata
     return tabledata
 
-def getEvent(eventid):
+def getThisEventData(eventid):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "select 'eventname' from 'events' where id='"+str(eventid)+"'"
+    command = "select * from 'events' where id='"+str(eventid)+"'"
     c.execute(command)
     data=c.fetchall()
     conn.close()
-#    print tabledata
+    return data[0]
+
+def getEvent(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select eventname from 'events' where id='"+str(eventid)+"'"
+    c.execute(command)
+    data=c.fetchall()
+    conn.close()
     return data
     
 def eventSearch(keyword):
@@ -149,7 +155,6 @@ def eventSearch(keyword):
                  and e not in res ):
                 res.append(e)
                 
-    print res
     return res
 
 def getCreated(username):
@@ -158,7 +163,6 @@ def getCreated(username):
     command = "select * from 'events' where username='"+username+"'"
     c.execute(command)
     created = c.fetchall()
-    print created
     conn.commit()
     conn.close()
     return created
@@ -169,7 +173,6 @@ def getPending(username):
     command = "select * from 'requests' where sender='"+username+"'"
     c.execute(command)
     pending = c.fetchall()
-    print pending
     conn.commit()
     conn.close()
     return pending
@@ -185,7 +188,15 @@ def getAccepted(eventid):
         accepted.append(data[0])
     return accepted
 
-def getRequests(eventid):
+def getRequests(username):
+    conn = sqlite3.connect("databases/requests.db")
+    c = conn.cursor()
+    command = "select * from 'requests' where receiver='"+username+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    return tabledata
+
+def getEventRequests(eventid):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
     command = "select * from 'requests'"
@@ -201,8 +212,7 @@ def makeRequest(eventid,username,host):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
     command = "insert into 'requests' (eventid, sender, receiver) values ("+eventid+",'"+username+"','"+host+"')"
-    print command
-    data = getRequests(eventid)
+    data = getEventRequests(eventid)
     add = True
     print data
     for r in data:
@@ -216,7 +226,7 @@ def makeRequest(eventid,username,host):
     conn.close()
 
 def getRequesters(eventid):
-    requests = getRequests(eventid)
+    requests = getEventRequests(eventid)
     requesters = []
     for r in requests:
         requesters.append(r[2])

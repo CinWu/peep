@@ -18,13 +18,17 @@ def home():
 #    graph = facebook.GraphAPI(ACCESS_TOKEN)
 #    print graph.get_object('me')
     if 'username' in session:
+        requests = manager.getRequests(session['username'])
+        requests.reverse()
         username = session['username']
-        created=manager.getCreated(username)
-        accepted=""
+        events = manager.getEventData()
+        created = manager.getCreated(username)
+        accepted= ""
         pending=[]
         for e in manager.getPending(username):
             pending.append(e)
-        return render_template("home.html", session=session, created=created, accepted=accepted, pending=pending)
+            
+        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -49,12 +53,6 @@ def create():
                     description = request.form["description"]
                     dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     tags = request.form["tags"]
-                    print event
-                    print location
-                    print date
-                    print description
-                    print dtime
-                    print tags
                     manager.addEvent(dtime,event,username,description,location,date,tags)
                     return redirect("/events")
         else:
@@ -91,10 +89,10 @@ def register():
             reppassword = request.form['password2']
             first = request.form['first']
             last = request.form['last']
+
             email = request.form['email']
             repemail = request.form['email2']
             phone = request.form['phone']
-            
             if 'facebook' in request.form:
                 facebook = request.form['facebook']
             else:
@@ -196,7 +194,6 @@ def login():
             
         return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids)
     else:
-        print session
         return render_template("login.html", loggedin=False, ids=ids)
 
 @app.route("/profile/<username>",methods=['GET','POST'])
@@ -252,7 +249,7 @@ def events(eventname=None):
         if int(eventname) > len(data):
             return render_template("error.html")
         newdata.append(data[int(eventname)-1])
-        ##no button if username is not logged in
+        ##no button if user is not logged in
         button = "none"
         if 'username' in session:
             username = session['username']
@@ -267,15 +264,18 @@ def events(eventname=None):
                 if "leave" in request.form:
                     manager.remMember(eventname,username)
                     print username+" leaves event"
-            button = "request"
-            accepted = manager.getAccepted(eventname)
-            for a in accepted:
-                if username in a:
-                    button = "leave"
-                    break
-            requested = manager.getRequesters(eventname)
-            if username in requested:
-                button = "pending"
+            if manager.getThisEventData(eventname)[3]==username:
+                button = "creator"
+            else:
+                button = "request"
+                accepted = manager.getAccepted(eventname)
+                for a in accepted:
+                    if username in a:
+                        button = "leave"
+                        break
+                requested = manager.getRequesters(eventname)
+                if username in requested:
+                    button = "pending"
             return render_template('events.html', button = button, data=newdata)
 
 if __name__ == "__main__":

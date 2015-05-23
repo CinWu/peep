@@ -11,14 +11,16 @@
 
     <div id="notes">
       <h3>Notifications:</h3>
+      {% for r in requests %}
+      <a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a><br>
+      {% endfor %}
       <br>
       <h3>My Events:</h3>
-      <b>!!!Will fix to show links to events</b>
       <div id="created">
 	Created Events:
 	<br>
 	{% for c in created %}
-	{{c}}<br>
+	<a href="/events/{{c[0]}}">{{c[2]}}</a><br>
 	{% endfor %}
       </div>
       <div id="accepted">
@@ -32,7 +34,7 @@
 	Pending Events:
 	<br>
 	{% for p in pending %}
-	{{p}}<br>
+	<a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
 	{% endfor %}
       </div>
     </div>
