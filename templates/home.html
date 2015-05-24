@@ -9,40 +9,46 @@
     
     {% if 'username' in session %}
 
-    <div id="notes">
+    <div id="dashboard">
+ 
       <h3>Notifications:</h3>
-      {% for r in requests %}
-      <form method="post" id="notifs">
-	<a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a>
-	<button name="approve" id="approve">Approve</button>
-	<button name="reject" id="reject">Reject</button>
-	<input type="hidden" name="user" value="{{r[2]}}" />
-	<input type="hidden" name="event" value="{{events[r[1]-1][0]}}" />      
-      </form>
+      <div id="notes">
+	{% for r in requests %}
+	<form method="post" id="notifs">
+	  <a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a>
+	  <button name="approve" id="approve">Approve</button>
+	  <button name="reject" id="reject">Reject</button>
+	  <input type="hidden" name="user" value="{{r[2]}}" />
+	  <input type="hidden" name="event" value="{{events[r[1]-1][0]}}" />      
+	</form>
+	<br>
+	{% endfor %}
+      </div>
       <br>
-      {% endfor %}
-      <br>
+      
       <h3>My Events:</h3>
-      <div id="created">
-	Created Events:
-	<br>
-	{% for c in created %}
-	<a href="/events/{{c[0]}}">{{c[2]}}</a><br>
-	{% endfor %}
-      </div>
-      <div id="accepted">
-	Events Attending:
-	<br>
-	{% for a in accepted %}
-	<a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
-	{% endfor %}      
-      </div>
-      <div id="requested">
-	Pending Events:
-	<br>
-	{% for p in pending %}
-	<a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
-	{% endfor %}
+      <div id="myevents">
+	<div id="created">
+	  Created Events:
+	  <br>
+	  {% for c in created %}
+	  <a href="/events/{{c[0]}}">{{c[2]}}</a><br>
+	  {% endfor %}
+	</div>
+	<div id="accepted">
+	  Events Attending:
+	  <br>
+	  {% for a in accepted %}
+	  <a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
+	  {% endfor %}      
+	</div>
+	<div id="requested">
+	  Pending Events:
+	  <br>
+	  {% for p in pending %}
+	  <a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
+	  {% endfor %}
+	</div>
       </div>
     </div>
     
