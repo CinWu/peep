@@ -27,6 +27,16 @@ def home():
         pending=[]
         for e in manager.getPending(username):
             pending.append(e)
+
+        if request.method == 'POST':
+            user = request.form["user"]
+            event = request.form["event"]
+            if request.form['status'] == "approve":
+                manager.addMember(event, user)
+                manager.removeRequest(event, user)
+
+            if request.form['status'] == "reject":
+                manager.removeRequest(event, user)
             
         return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events)
     return render_template("home.html")

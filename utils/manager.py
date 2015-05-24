@@ -111,6 +111,7 @@ def remEvent(datetime,event,user):
     conn.commit()
     conn.close()
 
+##Get data of all events
 def getEventData():
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
@@ -121,6 +122,7 @@ def getEventData():
 #    print tabledata
     return tabledata
 
+##Get data of one event
 def getThisEventData(eventid):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
@@ -130,6 +132,7 @@ def getThisEventData(eventid):
     conn.close()
     return data[0]
 
+##Get the event name
 def getEvent(eventid):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
@@ -188,6 +191,7 @@ def getAccepted(eventid):
         accepted.append(data[0])
     return accepted
 
+##get requests directed at this user
 def getRequests(username):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
@@ -196,6 +200,7 @@ def getRequests(username):
     tabledata=c.fetchall()
     return tabledata
 
+##get requests on this event
 def getEventRequests(eventid):
     conn = sqlite3.connect("databases/requests.db")
     c = conn.cursor()
@@ -241,7 +246,7 @@ def removeRequest(eventid, username):
     conn.close()
 
 def addMember(eventid, username):
-    conn=sqlite3.connect("databases/requests.db")
+    conn=sqlite3.connect("databases/events.db")
     c = conn.cursor()
     dtime = datetime.now().strftime('%Y-%m-%d')
     command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
@@ -250,7 +255,7 @@ def addMember(eventid, username):
     conn.close()
 
 def remMember(eventid, username):
-    conn=sqlite3.connect("databases/requests.db")
+    conn=sqlite3.connect("databases/events.db")
     c = conn.cursor()
     command = "delete from '"+str(eventid)+"' where username='"+username+"'"
     c.execute(command)
