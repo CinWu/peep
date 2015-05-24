@@ -34,7 +34,7 @@
 	Events Attending:
 	<br>
 	{% for a in accepted %}
-	{{a}}<br>
+	<a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
 	{% endfor %}      
       </div>
       <div id="requested">

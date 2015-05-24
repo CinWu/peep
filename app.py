@@ -23,7 +23,7 @@ def home():
         username = session['username']
         events = manager.getEventData()
         created = manager.getCreated(username)
-        accepted= ""
+        accepted= manager.getAccepted(username)
         pending=[]
         for e in manager.getPending(username):
             pending.append(e)

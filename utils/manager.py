@@ -180,10 +180,12 @@ def getPending(username):
     conn.close()
     return pending
 
-def getAccepted(eventid):
+def getAccepted(username):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "select * from '"+eventid+"'"
+    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
+    c.execute(command)
+    command = "select * from '"+username+"'"
     c.execute(command)
     tabledata=c.fetchall()
     accepted = []
@@ -251,6 +253,10 @@ def addMember(eventid, username):
     dtime = datetime.now().strftime('%Y-%m-%d')
     command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
     c.execute(command)
+    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
+    c.execute(command)
+    command = "insert into '"+username+"' (event) values ('"+eventid+"')"
+    c.execute(command)
     conn.commit()
     conn.close()
 
@@ -259,5 +265,7 @@ def remMember(eventid, username):
     c = conn.cursor()
     command = "delete from '"+str(eventid)+"' where username='"+username+"'"
     c.execute(command)
-    conn.commi()
+    command = "delete from '"+username+"' where event='"+str(eventid)+"'"
+    c.execute(command)
+    conn.commit()
     conn.close()
