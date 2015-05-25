@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block text %}
+{% block table %}
 
 <div class='column'>
 
@@ -10,48 +10,136 @@
     {% if 'username' in session %}
 
     <div id="dashboard">
- 
-      <h3>Notifications:</h3>
-      <div id="notes">
-	{% for r in requests %}
-	<form method="post" id="notifs">
-	  <a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a>
-	  <button name="approve" id="approve">Approve</button>
-	  <button name="reject" id="reject">Reject</button>
-	  <input type="hidden" name="user" value="{{r[2]}}" />
-	  <input type="hidden" name="event" value="{{events[r[1]-1][0]}}" />      
-	</form>
-	<br>
-	{% endfor %}
-      </div>
-      <br>
       
-      <h3>My Events:</h3>
-      <div id="myevents">
-	<div id="created">
-	  Created Events:
-	  <br>
-	  {% for c in created %}
-	  <a href="/events/{{c[0]}}">{{c[2]}}</a><br>
-	  {% endfor %}
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#messages" data-toggle="tab">Messages</a></li>
+        <li><a href="#created" data-toggle="tab">Events Created</a></li>
+        <li><a href="#attending" data-toggle="tab">Events Attending</a></li>
+        <li><a href="#pending" data-toggle="tab">Events Pending</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div class="tab-pane active" id="messages">
+          <div class="table-responsive">
+            <table class="table table-hover" id="myTable">
+              <thead>
+                <tr width="75px">
+                  <th>#</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="items">
+		{% set ctr = 1 %}
+		{% for r in requests %}
+		<tr>
+		  <td width="75px">{{ctr}}{% set ctr = ctr+1 %}</td>
+		  <td>
+		    <form method="post" id="notifs">
+		      <a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a>
+		      <button name="approve" id="approve">Approve</button>
+		      <button name="reject" id="reject">Reject</button>
+		      <input type="hidden" name="user" value="{{r[2]}}" />
+		      <input type="hidden" name="event" value="{{events[r[1]-1][0]}}" />      
+		    </form>
+		  </td>
+		</tr>
+		{% endfor %}
+		{% if requests|length == 0 %}
+		<tr width="75px"></tr><tr>You have no notifications.</tr>
+		{% endif %}
+
+              </tbody>
+            </table>
+            <hr>
+          </div>
 	</div>
-	<div id="accepted">
-	  Events Attending:
-	  <br>
-	  {% for a in accepted %}
-	  <a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
-	  {% endfor %}      
+	
+        <div class="tab-pane" id="created">
+          <div class="table-responsive">
+            <table class="table table-hover" id="myTable">
+	      <thead>
+                <tr>
+                  <th width="75px">#</th>
+                  <th>Event</th>
+                </tr>
+              </thead>
+              <tbody id="items">
+		{% set ctr = 1 %}
+		{% for c in created %}
+		<tr width="75px">
+		  <td>{{ctr}}{% set ctr = ctr+1 %}</td>
+		  <td>
+		    <a href="/events/{{c[0]}}">{{c[2]}}</a><br>
+		  </td>
+		</tr>
+		{% endfor %}
+		{% if created|length == 0 %}
+		<tr width="75px"></tr><tr>You have not created any events.</tr>
+		{% endif %}
+              </tbody>
+	    </table>
+            <hr>
+	  </div>
 	</div>
-	<div id="requested">
-	  Pending Events:
-	  <br>
-	  {% for p in pending %}
-	  <a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
-	  {% endfor %}
+
+        <div class="tab-pane" id="attending">
+          <div class="table-responsive">
+            <table class="table table-hover" id="myTable">
+	      <thead>
+                <tr>
+                  <th width="75px">#</th>
+                  <th>Event</th>
+                </tr>
+              </thead>
+              <tbody id="items">
+		{% set ctr = 1 %}
+		{% for a in attending %}
+		<tr>
+		  <td width="75px">{{ctr}}{% set ctr = ctr+1 %}</td>
+		  <td>
+		    <a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
+		  </td>
+		</tr>
+		{% endfor %}
+		{% if attending|length == 0 %}
+		<tr width="75px"><td></td><td>You are not attending any events.</td></tr>
+		{% endif %}
+              </tbody>
+	    </table>
+            <hr>
+	  </div>
 	</div>
+	
+        <div class="tab-pane" id="pending">
+          <div class="table-responsive">
+            <table class="table table-hover" id="myTable">
+	      <thead>
+                <tr>
+                  <th width="75px">#</th>
+                  <th>Event</th>
+                </tr>
+              </thead>
+              <tbody id="items">
+		{% set ctr = 1 %}
+		{% for p in pending %}
+		<tr>
+		  <td width="75px">{{ctr}}{% set ctr = ctr+1 %}</td>
+		  <td>
+		    <a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
+		  </td>
+		</tr>
+		{% endfor %}
+		{% if pending|length == 0 %}
+		<tr width="75px"></tr><tr>You have no pending events.</tr>
+		{% endif %}
+              </tbody>
+	    </table>
+            <hr>
+	  </div>
+	</div>
+
       </div>
-    </div>
-    
+ 
     {% endif %}
 
   </div>
@@ -59,3 +147,4 @@
 </div>
 
 {% endblock %}
+{% block text %}{% endblock %}

@@ -41,21 +41,3 @@ hr {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
-
-#notes {
-    height: 100px;
-    overflow:hidden;
-    overflow-y:scroll;
-    padding: 10px;
-    background-color: #FFFFCC;
-    border-radius: 10px;
-}
-
-#myevents {
-    height: 150px;
-    overflow:hidden;
-    overflow-y:scroll;
-    padding: 10px;
-    background-color: #FFFFCC;
-    border-radius: 10px;
-}
