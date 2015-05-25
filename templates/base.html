@@ -28,9 +28,8 @@
     <script src='../static/js/facebook.js'></script>
     <script src='../static/js/main.js'></script>
     <div id="fb-root"></div>
-
+    <br>
     <div id="wrapper">
-      <hr>
       <div class="col-sm-3"><!--left col-->
         
         <ul class="list-group">
@@ -39,13 +38,6 @@
           <li class="list-group-item text-right"><span class="pull-left"><strong>Studies at</strong></span> School Name</li>
           <li class="list-group-item text-right"><span class="pull-left"><strong>Birthday</strong></span> XX.XX.XX</li>          
         </ul> 
-        
-        <div class="panel panel-default">
-          <div class="panel-heading">Our Repo<i class="fa fa-link fa-1x"></i></div>
-          <div class="panel-body"><a href="https://github.com/CinWu/peep">https://github.com/CinWu/peep</a></div>
-          <div class="panel-body"><a href="/about">What Is Peep?</a></div>
-	  <div class="panel-body"><a href="/events">Your Events</a></div>
-        </div>
             
         <ul class="list-group">
           <li class="list-group-item text-muted">Events <i class="fa fa-dashboard fa-1x"></i></li>
@@ -53,24 +45,18 @@
           <li class="list-group-item text-right"><span class="pull-left"><strong>Events Attended</strong></span> #</li>
           <li class="list-group-item text-right"><span class="pull-left"><strong>Events This Week</strong></span> #</li>
         </ul> 
-	<br><br><br><hr>
       </div>
 
 
       <div class="col-sm-9">
         
 	{% block table %}
-
-	<div id="page-content-wrapper" class="container">
-          <div class="container">
-            <div class="row">	  
-	      {% block text %}
-	      <h2>Welcome!</h2>
-	      {% endblock %}
-            </div>
-          </div>
-	</div>
 	{% endblock table %}
+	<div id="page-content-wrapper" class="container">
+	  {% block text %}
+	  <h2>Welcome!</h2>
+	  {% endblock %}
+	</div>
       </div>
 
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
