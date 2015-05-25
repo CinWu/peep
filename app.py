@@ -35,15 +35,23 @@ def home():
         print "PENDING"
         print pending
         if request.method == 'POST':
-            user = request.form["user"]
-            event = request.form["event"]
-            if request.form['status'] == "approve":
+            if "approve" in request.form:
+                user = request.form["user"]
+                event = request.form["event"]
                 manager.addMember(event, user)
                 manager.removeRequest(event, user)
-
-            if request.form['status'] == "reject":
+                accepted= manager.getAccepted(username)
+                accepted.reverse()
+                requests = manager.getRequests(session['username'])
+                requests.reverse()
+                
+            if "reject" in request.form:
+                user = request.form["user"]
+                event = request.form["event"]
                 manager.removeRequest(event, user)
-            
+                requests = manager.getRequests(session['username'])
+                requests.reverse()
+                
         return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events)
     return render_template("home.html")
 
