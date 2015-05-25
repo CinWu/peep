@@ -26,11 +26,14 @@ def home():
         created.reverse()
         accepted= manager.getAccepted(username)
         accepted.reverse()
-        pending=[]
-        for e in manager.getPending(username):
-            pending.append(e)
+        pending=manager.getPending(username)
         pending.reverse()
-
+        print "CREATED"
+        print created
+        print "ACCEPTED"
+        print accepted
+        print "PENDING"
+        print pending
         if request.method == 'POST':
             user = request.form["user"]
             event = request.form["event"]

@@ -93,7 +93,7 @@
               </thead>
               <tbody id="items">
 		{% set ctr = 1 %}
-		{% for a in attending %}
+		{% for a in accepted %}
 		<tr>
 		  <td width="75px">{{ctr}}{% set ctr = ctr+1 %}</td>
 		  <td>
@@ -101,7 +101,7 @@
 		  </td>
 		</tr>
 		{% endfor %}
-		{% if attending|length == 0 %}
+		{% if accepted|length == 0 %}
 		<tr width="75px"><td></td><td>You are not attending any events.</td></tr>
 		{% endif %}
               </tbody>
