@@ -45,9 +45,12 @@ Why don't you try <a href='/create'>creating</a> one?
   </div>
 </div>
 <br>
-{% endfor %}
 
 {% if data|count == 1 and search != "" %}
+<body onload="address('{{event[5]}}')">
+<div id="map-canvas"></div>
+</body>
+
 <h5> Attending </h5>
 <ul>
 {% for p in accepted %}
@@ -56,5 +59,7 @@ Why don't you try <a href='/create'>creating</a> one?
 </ul>
   
 {% endif %}
+
+{% endfor %}
 
 {% endblock %}

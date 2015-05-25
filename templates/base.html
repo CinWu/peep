@@ -21,6 +21,14 @@
     <!--jquery-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
+    <!--google maps-->
+    <style type="text/css">
+      #map-canvas { height: 400px; width: 500px; margin: 10px; padding: 0;}
+    </style>
+    
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNPzn6tZ36hMfILVHyliK1KkdoP0dotWs">
+    </script>
+
     <title>peep</title>
   </head>
   
@@ -49,7 +57,6 @@
 
 
       <div class="col-sm-9">
-        
 	{% block table %}
 	{% endblock table %}
 	<div id="page-content-wrapper" class="container">
