@@ -5,14 +5,14 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 
 #####To Do:
 ######Finish by Weekend of May 3rd
-- [ ] Create HTML files
+- [x] Create HTML files
   -  [x] Base File
-  -  [ ] Home Page
-  -  [ ] Profile Page
-  -  [ ] Search Results Page
-  -  [ ] Events Page
+  -  [x] Home Page
+  -  [x] Profile Page
+  -  [x] Search Results Page
+  -  [x] Events Page
 - [ ] Frontend
-  -  [ ] Base CSS (Bootstrap)
+  -  [x] Base CSS (Bootstrap)
   -  [ ] User Interaction (Javascript)
 - [ ] Backend
   -  [x] Database  
@@ -22,14 +22,14 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 
 ######Finish by Weekend of May 10th
 
-  -  [ ] Make Event
-  -  [ ] Search
+  -  [x] Make Event
+  -  [x] Search
   -  [ ] Google Maps API
-  -  [ ] Event Organization
+  -  [x] Event Organization
 
 ######Finish by Weekend of May 17th
 
-  -  [ ] Notifications/Requests
+  -  [x] Notifications/Requests
   -  [ ] Private Messages
   -  [ ] User Calendars
 -  [ ] Set up a server
