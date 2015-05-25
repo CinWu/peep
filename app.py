@@ -256,6 +256,8 @@ def events(eventname=None):
             at = request.form['at']
             data = manager.eventSearch(peep)        
             #if data is null return some text
+        elif request.method == "GET":
+            data = manager.eventSearch("")
         return render_template('events.html', data=data, search=True)
     else:
         newdata=[]

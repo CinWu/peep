@@ -144,7 +144,7 @@ def getEvent(eventid):
 ##check if event is passed
 def expired(eventid):
     expired = False
-    
+
     when = getThisEventData(eventid)[6]
     date = when.split(" ")[0]
 
@@ -165,22 +165,22 @@ def expired(eventid):
     nhour = ntime.split(":")[0]
     nminute = ntime.split(":")[1]
 
-    if nyear > year:
+    if int(nyear) > int(year):
+
         expired = True
     else:
-        if nmonth > month:
+        if int(nmonth) > int(month) and int(nyear) == int(year):
             expired = True
-            print nday
-            print day
         else:
-            if nday > day:
+            if int(nday) > int(day) and int(nmonth) == int(month):
                 expired = True                
             else:
-                if nhour > hour:
+                if int(nhour) > int(hour) and int(nday) == int(day):
                     expired = True                
                 else:
-                    if nminute > minute:
+                    if int(nminute) > int(minute) and int(nhour) == int(hour):
                         expired = True  
+ 
     return expired
         
 
@@ -188,23 +188,25 @@ def eventSearch(keyword):
     data = getEventData()
     res = []
     for e in data:
-
-        tags = e[7].split("#")
-        name = e[2].split(' ')
-        desc = e[4].split(" ")
-        for n in name:
-            if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
+        if not expired(e[0]):
+            if keyword == "":
                 res.append(e)
-        for t in tags:
-            ##really bad search. Please edit.
-            if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 
-                 and e not in res ):
-                res.append(e)
-        for d in desc:
-            if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
-                 and e not in res ):
-                res.append(e)
-                
+            else:
+                tags = e[7].split("#")
+                name = e[2].split(' ')
+                desc = e[4].split(" ")
+                for n in name:
+                    if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
+                        res.append(e)
+                for t in tags:
+                    ##really bad search. Please edit.
+                    if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 
+                         and e not in res ):
+                        res.append(e)
+                for d in desc:
+                    if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
+                         and e not in res ):
+                        res.append(e)
     return res
 
 def getCreated(username):
