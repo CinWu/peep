@@ -23,10 +23,13 @@ def home():
         username = session['username']
         events = manager.getEventData()
         created = manager.getCreated(username)
+        created.reverse()
         accepted= manager.getAccepted(username)
+        accepted.reverse()
         pending=[]
         for e in manager.getPending(username):
             pending.append(e)
+        pending.reverse()
 
         if request.method == 'POST':
             user = request.form["user"]
