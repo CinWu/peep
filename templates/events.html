@@ -47,4 +47,14 @@ Why don't you try <a href='/create'>creating</a> one?
 <br>
 {% endfor %}
 
+{% if data|count == 1 and search != "" %}
+<h5> Attending </h5>
+<ul>
+{% for p in accepted %}
+<li>{{p}}</li>
+{% endfor %}
+</ul>
+  
+{% endif %}
+
 {% endblock %}

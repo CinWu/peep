@@ -272,6 +272,7 @@ def events(eventname=None):
         return render_template('events.html', data=data, search=True)
     else:
         newdata=[]
+        accepted = manager.getAccepted(eventname)
         if int(eventname) > len(data):
             return render_template("error.html")
         newdata.append(data[int(eventname)-1])
@@ -294,7 +295,6 @@ def events(eventname=None):
                 button = "creator"
             else:
                 button = "request"
-                accepted = manager.getAccepted(eventname)
                 for a in accepted:
                     if username in a:
                         button = "leave"
@@ -302,7 +302,7 @@ def events(eventname=None):
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
-            return render_template('events.html', button = button, data=newdata)
+        return render_template('events.html', button = button, data=newdata, accepted=accepted)
 
 if __name__ == "__main__":
     app.debug = True
