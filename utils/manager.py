@@ -99,14 +99,13 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     conn.close()
 
 #date-time,eventname,username,description,location,time,tags    
-def remEvent(datetime,event,user):
+def remEvent(eventid):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "DELETE FROM events WHERE datetime='" + datetime + "' AND eventname='"+event+"' AND username='"+user+"'"
+    command = "DELETE FROM events WHERE id='" + str(eventid) + "'"
     c.execute(command)
     data=c.fetchall()
-    idnum= int(data[0][0])
-    command = "drop table '"+idnum+"'"
+    command = "drop table '"+str(eventid)+"'"
     c.execute(command)
     conn.commit()
     conn.close()
@@ -141,20 +140,68 @@ def getEvent(eventid):
     data=c.fetchall()
     conn.close()
     return data
+
+##check if event is passed
+def expired(eventid):
+    expired = False
     
+    when = getThisEventData(eventid)[6]
+    date = when.split(" ")[0]
+
+    month = date.split("-")[1]
+    day = date.split("-")[2]
+    year = date.split("-")[0]
+
+    time = when.split(" ")[1]
+    hour = time.split(":")[0]
+    minute = time.split(":")[1]
+
+    ndate = str(datetime.now().strftime('%Y-%m-%d'))
+    nmonth = ndate.split("-")[1]
+    nday = ndate.split("-")[2]
+    nyear = ndate.split("-")[0]
+
+    ntime = str(datetime.now().time())
+    nhour = ntime.split(":")[0]
+    nminute = ntime.split(":")[1]
+
+    if nyear > year:
+        expired = True
+    else:
+        if nmonth > month:
+            expired = True
+            print nday
+            print day
+        else:
+            if nday > day:
+                expired = True                
+            else:
+                if nhour > hour:
+                    expired = True                
+                else:
+                    if nminute > minute:
+                        expired = True  
+    return expired
+        
+
 def eventSearch(keyword):
     data = getEventData()
     res = []
     for e in data:
-        ##Search based on tags
+
         tags = e[7].split("#")
         name = e[2].split(' ')
+        desc = e[4].split(" ")
         for n in name:
             if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
                 res.append(e)
         for t in tags:
             ##really bad search. Please edit.
             if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 
+                 and e not in res ):
+                res.append(e)
+        for d in desc:
+            if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
                  and e not in res ):
                 res.append(e)
                 
@@ -269,3 +316,4 @@ def remMember(eventid, username):
     c.execute(command)
     conn.commit()
     conn.close()
+
