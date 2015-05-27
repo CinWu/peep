@@ -234,7 +234,13 @@ def login():
           
         if loggedin:
             session['username']=username
-            
+            first = manager.getFirst(username)
+            last = manager.getLast(username)
+            email = manager.getEmail(username)
+            phone = manager.getPhone(username)
+            created = manager.getCreated(username)
+            accepted= manager.getAccepted(username)
+            return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted) 
         return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids)
     else:
         return render_template("login.html", loggedin=False, ids=ids)
