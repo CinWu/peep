@@ -21,6 +21,10 @@ def home():
         requests = manager.getRequests(session['username'])
         requests.reverse()
         username = session['username']
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
         events = manager.getEventData()
         created = manager.getCreated(username)
         created.reverse()
@@ -52,7 +56,7 @@ def home():
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
                 
-        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events)
+        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -61,26 +65,32 @@ def about():
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
+    username = ""
     ids=manager.getIDs()
     if 'username' in session:
         loggedin=True
+        username=session['username']
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
+        created = manager.getCreated(username)
+        accepted= manager.getAccepted(username)
         if request.method=='POST':
-            username=session['username']
-            if request.method=='POST':
-                if request.form["submit"] == "Go":
-                    if manager.getProfilePath() != "profile/":
-                        return redirect(manager.getProfilePath())
-                if request.form["submit"]=="Create Event":
-                    event = request.form["event"]
-                    location = request.form["location"]
-                    date=request.form["date"]+" "+request.form["time"]
-                    description = request.form["description"]
-                    dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    tags = request.form["tags"]
-                    manager.addEvent(dtime,event,username,description,location,date,tags)
-                    return redirect("/events")
+            if request.form["submit"] == "Go":
+                if manager.getProfilePath() != "profile/":
+                    return redirect(manager.getProfilePath())
+            if request.form["submit"]=="Create Event":
+                event = request.form["event"]
+                location = request.form["location"]
+                date=request.form["date"]+" "+request.form["time"]
+                description = request.form["description"]
+                dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                tags = request.form["tags"]
+                manager.addEvent(dtime,event,username,description,location,date,tags)
+                return redirect("/events")
         else:
-            return render_template("makeEvents.html",loggedin=loggedin,ids=ids)
+            return render_template("makeEvents.html",loggedin=loggedin,ids=ids,username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted)
     else:
         return render_template("makeEvents.html",loggedin=False,ids=ids)
   
@@ -228,34 +238,11 @@ def profile(username=None):
         last = manager.getLast(username)
         email = manager.getEmail(username)
         phone = manager.getPhone(username)
-        return render_template("profile.html",username=username,first=first,last=last,phone=phone,email=email )
+        created = manager.getCreated(username)
+        accepted= manager.getAccepted(username)
+        return render_template("profile.html",username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted )
     else:
-        return render_template("base.html")
-
-@app.route('/create_event', methods = ['GET','POST'])
-def create_event():
-    if request.method == "POST":
-        conn = sqlite3.connect("databases/events.db")
-        c = conn.cursor()
-        if 'username' in session:
-            username = session['username']
-            event = request.form['event']
-            place = request.form['location']
-            time = request.form['time']
-            detail = request.form['detail']
-            
-            c.execute('create table if not exists events (name,event,place,time,detail)')
-            insinfo="insert into events values ('"+username+"','"+event+"','"+place+"','"+time+"','"+detail+"')"
-            c.execute(insinfo)
-            conn.commit()
-            print 'event created'
-            conn.close()
-
-        else:
-            flash("Login to create an event!")
-            return redirect('/login')
-            
-    return redirect('/')
+        return redirect("/")
 
 @app.route("/events",methods=['GET','POST'])
 @app.route("/events/<eventname>", methods=['GET', 'POST'])
@@ -272,7 +259,7 @@ def events(eventname=None):
         return render_template('events.html', data=data, search=True)
     else:
         newdata=[]
-        accepted = manager.getAccepted(eventname)
+        eaccepted = manager.getAccepted(eventname)
         if int(eventname) > len(data):
             return render_template("error.html")
         newdata.append(data[int(eventname)-1])
@@ -280,6 +267,12 @@ def events(eventname=None):
         button = "none"
         if 'username' in session:
             username = session['username']
+            first = manager.getFirst(username)
+            last = manager.getLast(username)
+            email = manager.getEmail(username)
+            phone = manager.getPhone(username)
+            created = manager.getCreated(username)
+            accepted= manager.getAccepted(username)
             if request.method == "POST":
                 if "request" in request.form:
                     eventdata = manager.getEventData()
@@ -302,7 +295,7 @@ def events(eventname=None):
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
-        return render_template('events.html', button = button, data=newdata, accepted=accepted)
+        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted)
 
 if __name__ == "__main__":
     app.debug = True

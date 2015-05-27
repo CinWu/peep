@@ -44,16 +44,16 @@
         
         <ul class="list-group">
           <li class="list-group-item text-muted">Info</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Name</strong></span>Name</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Name</strong></span>{{first}} {{last}}</li>
           <!--- <li class="list-group-item text-right"><span class="pull-left"><strong>Studies at</strong></span> School Name</li> --->
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Birthday</strong></span> XX.XX.XX</li>          
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Phone Number</strong></span> {{phone}}</li>          
+	  <li class="list-group-item text-right"><span class="pull-left"><strong>Email Address</strong></span> {{email}}</li>
         </ul> 
             
         <ul class="list-group">
           <li class="list-group-item text-muted">Events <i class="fa fa-dashboard fa-1x"></i></li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Your Events</strong></span> #</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Events Attended</strong></span> #</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Events This Week</strong></span> #</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Your Events</strong></span> {{created|length}}</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Events Attended</strong></span> {{accepted|length}}</li>
         </ul> 
       </div>
       {% endif %}
