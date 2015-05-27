@@ -2,7 +2,8 @@
 {% block text %}
 
 <!--this search variable is for distinguishing between when the user used the search bar to find the event or not. There were a few problems without this distinction-->
-{% if search %}
+<body onload="distance('brighton','new jersey')">
+<div id='outputDiv'></div>{% if search %}
 <h2> Events </h2><hr>
 <i> {{ data|count }} event(s) found. </i><br><br>
 
@@ -46,7 +47,7 @@ Why don't you try <a href='/create'>creating</a> one?
 </div>
 <br>
 
-{% if data|count == 1 and search != "" %}
+{% if data|count == 1 and search == null %}
 <body onload="address('{{event[5]}}')">
 <div id="map-canvas"></div>
 </body>
@@ -57,7 +58,7 @@ Why don't you try <a href='/create'>creating</a> one?
 <li>{{p}}</li>
 {% endfor %}
 </ul>
-  
+
 {% endif %}
 
 {% endfor %}
