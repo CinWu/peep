@@ -308,10 +308,12 @@ def addMember(eventid, username):
     c = conn.cursor()
     dtime = datetime.now().strftime('%Y-%m-%d')
     command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
+    print command
     c.execute(command)
     command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event text)"
     c.execute(command)
-    command = "insert into '"+username+"' (event) values ('"+eventid+"')"
+    command = "insert into '"+username+"' (event) values ('"+str(eventid)+"')"
+    print command
     c.execute(command)
     conn.commit()
     conn.close()

@@ -39,7 +39,8 @@ def home():
         print "PENDING"
         print pending
         if request.method == 'POST':
-            if "approve" in request.form:
+            print request.form
+            if request.form["status"]=="approve":
                 user = request.form["user"]
                 event = request.form["event"]
                 manager.addMember(event, user)
@@ -48,14 +49,12 @@ def home():
                 accepted.reverse()
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
-                
-            if "reject" in request.form:
+            if request.form["status"]=="reject":
                 user = request.form["user"]
                 event = request.form["event"]
                 manager.removeRequest(event, user)
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
-                
         return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email)
     return render_template("home.html")
 
@@ -192,7 +191,7 @@ def register():
             
             if registered:
                 return render_template("register.html", page=1, username=username,ids=ids)
-                return render_template("register.html", page=2, reason=reason,ids=ids)
+            return render_template("register.html", page=2, reason=reason,ids=ids)
     else:
         return render_template("register.html", page=3, loggedin=loggedin, username=username, ids=ids) 
 
@@ -244,13 +243,20 @@ def login():
 def profile(username=None):
     ids=manager.getIDs()
     if username in ids:
-        first = manager.getFirst(username)
-        last = manager.getLast(username)
-        email = manager.getEmail(username)
-        phone = manager.getPhone(username)
-        created = manager.getCreated(username)
-        accepted= manager.getAccepted(username)
-        return render_template("profile.html",username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted )
+        pfirst = manager.getFirst(username)
+        plast = manager.getLast(username)
+        pemail = manager.getEmail(username)
+        pphone = manager.getPhone(username)
+        if 'username' in session:
+            username=session['username']
+            first = manager.getFirst(username)
+            last = manager.getLast(username)
+            email = manager.getEmail(username)
+            phone = manager.getPhone(username)
+            created = manager.getCreated(username)
+            accepted= manager.getAccepted(username)
+            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=phone,pemail=email, username=username, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=phone,pemail=email)
     else:
         return redirect("/")
 
