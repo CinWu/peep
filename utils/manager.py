@@ -95,6 +95,13 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     idnum= int(data[0][0])
     command = "CREATE TABLE IF NOT EXISTS '" + str(idnum) +"' (username text, date text)"
     c.execute(command)
+    command = "INSERT INTO '"+str(idnum)+"' (username, date) values ('"+user+"','"+datetime+"')"
+    c.execute(command)
+    command = "CREATE TABLE IF NOT EXISTS '" + user +"' (event text)"
+    c.execute(command)
+    command = "insert into '"+user+"' (event) values ('"+str(idnum)+"')"
+    print command
+    c.execute(command)
     conn.commit()
     conn.close()
 
@@ -302,7 +309,7 @@ def addMember(eventid, username):
     dtime = datetime.now().strftime('%Y-%m-%d')
     command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
     c.execute(command)
-    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
+    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event text)"
     c.execute(command)
     command = "insert into '"+username+"' (event) values ('"+eventid+"')"
     c.execute(command)

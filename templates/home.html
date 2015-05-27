@@ -45,7 +45,7 @@
 		{% endfor %}
 		{% if requests|length == 0 %}
 		<br>
-		<tr width="75px"></tr><tr>You have no notifications.</tr>
+		<tr width="75px"><td></td><td>You have no notifications.</td></tr>
 		{% endif %}
 
               </tbody>
@@ -74,7 +74,7 @@
 		</tr>
 		{% endfor %}
 		{% if created|length == 0 %}
-		<tr width="75px"></tr><tr>You have not created any events.</tr>
+		<tr width="75px"><td></td><td>You have no created events.</td></tr>
 		{% endif %}
               </tbody>
 	    </table>
@@ -130,8 +130,7 @@
 		</tr>
 		{% endfor %}
 		{% if pending|length == 0 %}
-		<tr width="75px"></tr><tr>You have no pending events.</tr>
-		{% endif %}
+		<tr width="75px"><td></td><td>You have no pending events.</td></tr>{% endif %}
               </tbody>
 	    </table>
             <hr>

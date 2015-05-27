@@ -38,11 +38,12 @@ Why don't you try <a href='/create'>creating</a> one?
     {% if search or data|count != 1 %}
     <h3><a href="/events/{{ event[0] }}">{{ event[2] }}</a></h3>
     {% endif %}
-    <i>Posted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
     <b> Location: </b> {{ event[5] }} <br>
     <b> Time: </b> {{ event[6] }} <br>
     <b> Description: <br></b>{{ event[4] }}<br>
     <b>Tags: </b> {{ event[7] }}<br>
+    <i>Hosted by <a href="/profile/{{event[3]}}">{{ event[3] }}</a> &nbsp {{ event[1] }}</i><br>
+   
   </div>
 </div>
 <br>

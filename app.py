@@ -61,6 +61,16 @@ def home():
 
 @app.route("/about", methods=['GET','POST'])
 def about():
+    if 'username' in session:
+        loggedin=True
+        username=session['username']
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
+        created = manager.getCreated(username)
+        accepted= manager.getAccepted(username)
+        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
     return render_template("about.html")
 
 @app.route("/create", methods=['GET', 'POST'])
@@ -247,6 +257,13 @@ def profile(username=None):
 @app.route("/events",methods=['GET','POST'])
 @app.route("/events/<eventname>", methods=['GET', 'POST'])
 def events(eventname=None):
+    username=""
+    first=""
+    last=""
+    email=""
+    phone=""
+    created=""
+    accepted=""
     data = manager.getEventData()
     if eventname==None:
         if request.method == "POST":
@@ -256,7 +273,15 @@ def events(eventname=None):
             #if data is null return some text
         elif request.method == "GET":
             data = manager.eventSearch("")
-        return render_template('events.html', data=data, search=True)
+        if 'username' in session:
+            username = session['username']
+            first = manager.getFirst(username)
+            last = manager.getLast(username)
+            email = manager.getEmail(username)
+            phone = manager.getPhone(username)
+            created = manager.getCreated(username)
+            accepted= manager.getAccepted(username)
+        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
     else:
         newdata=[]
         eaccepted = manager.getAccepted(eventname)
