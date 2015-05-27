@@ -37,13 +37,15 @@
     <script src='../static/js/main.js'></script>
     <div id="fb-root"></div>
     <br>
+
+    {% if 'username' in session %}
     <div id="wrapper">
       <div class="col-sm-3"><!--left col-->
         
         <ul class="list-group">
-          <li class="list-group-item text-muted">Profile</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Name</strong></span> First Last</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Studies at</strong></span> School Name</li>
+          <li class="list-group-item text-muted">Info</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Name</strong></span>Name</li>
+          <!--- <li class="list-group-item text-right"><span class="pull-left"><strong>Studies at</strong></span> School Name</li> --->
           <li class="list-group-item text-right"><span class="pull-left"><strong>Birthday</strong></span> XX.XX.XX</li>          
         </ul> 
             
@@ -54,6 +56,7 @@
           <li class="list-group-item text-right"><span class="pull-left"><strong>Events This Week</strong></span> #</li>
         </ul> 
       </div>
+      {% endif %}
 
 
       <div class="col-sm-9">
