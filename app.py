@@ -142,16 +142,14 @@ def register():
                 facebook = ""
                 
             reason = ""
-            registered=False
+            registered=True
 
             if email != repemail:
                 registered=False
                 reason = "Emails do not match"
                 print "Emails do not match"
 
-            if password == reppassword:
-                registered=True
-            else:
+            if password != reppassword:
                 registered=False
                 reason = "Passwords do not match"
                 print "Passwords do not match"
@@ -254,15 +252,15 @@ def profile(username=None):
         pemail = manager.getEmail(username)
         pphone = manager.getPhone(username)
         if 'username' in session:
-            username=session['username']
-            first = manager.getFirst(username)
-            last = manager.getLast(username)
-            email = manager.getEmail(username)
-            phone = manager.getPhone(username)
-            created = manager.getCreated(username)
-            accepted= manager.getAccepted(username)
-            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=phone,pemail=email, username=username, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
-        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=phone,pemail=email)
+            ausername=session['username']
+            first = manager.getFirst(ausername)
+            last = manager.getLast(ausername)
+            email = manager.getEmail(ausername)
+            phone = manager.getPhone(ausername)
+            created = manager.getCreated(ausername)
+            accepted= manager.getAccepted(ausername)
+            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail, username=ausername, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail)
     else:
         return redirect("/")
 
