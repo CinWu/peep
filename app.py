@@ -96,6 +96,10 @@ def create():
                 description = request.form["description"]
                 dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 tags = request.form["tags"]
+                requestlist = tags.split(',')
+                for x in requestlist:
+                    x.strip()
+                print requestlist
                 manager.addEvent(dtime,event,username,description,location,date,tags)
                 return redirect("/events")
         else:
