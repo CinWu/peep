@@ -61,13 +61,14 @@ $( document ).ready(function() {
 		}
             }); 
 	}
+    });
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
+	mapTypeId: google.maps.MapTypeId.ROADMAP
     });	
 });
 
 var geocoder = new google.maps.Geocoder();
-var map = new google.maps.Map(document.getElementById('map-canvas'), {
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-});
+var map;
 
 function initialize() {
 
