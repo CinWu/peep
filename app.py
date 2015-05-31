@@ -285,7 +285,7 @@ def events(eventname=None):
             at = request.form['at']
             data = manager.eventSearch(peep)
             if at != "":
-                data = sortByDist(data, at)
+                return render_template("process.html", data=data)
             #if data is null return some text
         elif request.method == "GET":
             data = manager.eventSearch("")

@@ -2,7 +2,6 @@
 {% block text %}
 
 <!--this search variable is for distinguishing between when the user used the search bar to find the event or not. There were a few problems without this distinction-->
-<body onload="distance('new york','new jersey')">
 <div id='outputDiv'></div>{% if search %}
 <h2> Events </h2><hr>
 <i> {{ data|count }} event(s) found. </i><br><br>

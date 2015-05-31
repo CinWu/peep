@@ -282,13 +282,8 @@ var distance = function(p1, p2) {
 	var d = R * c;
 	d = d*0.000621371;//meters to miles
 	console.log(d);
-	$.ajax({
-	    url: "/",
-            data: d,
-	    type: "POST"
-        });
+
     });
 };
-    
 
 google.maps.event.addDomListener(window, 'load', initialize);
