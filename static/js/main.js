@@ -70,8 +70,8 @@ $( document ).ready(function() {
 var geocoder = new google.maps.Geocoder();
 var map;
 
+//Map
 function initialize() {
-
     var markers = [];
 
     map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -201,6 +201,7 @@ function handleNoGeolocation(errorFlag) {
     map.setCenter(options.position);
 }
 
+//Center map at place
 function address(place) {
     var address = place;
 
@@ -218,6 +219,7 @@ function address(place) {
     });
 }
 
+//Center map at user's location
 function codeAddress() {
     var address = document.getElementById('address').value;
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -232,4 +234,61 @@ function codeAddress() {
 	}
     });
 }
+
+
+//Finding Distance
+var d = $.Deferred();
+
+function locate(add, res) {
+    var address = add;
+    var loc=[];
+
+    geocoder.geocode( { 'address': address }, function(results, status) {
+	if (status == google.maps.GeocoderStatus.OK) {
+            loc[0]=results[0].geometry.location.lat();
+            loc[1]=results[0].geometry.location.lng();
+	    console.log(loc);
+//            alert( loc );
+	} else {
+            alert("Geocode was not successful for the following reason: " + status);
+	}
+
+	if (res) {
+	    d.resolve();
+	}	
+    });
+
+
+    return loc;
+}
+
+//Haversine formula
+var rad = function(x) {
+    return x * Math.PI / 180;
+};
+
+var distance = function(p1, p2) {
+    var R = 6378137;
+    var latlong1 = locate(p1, false);
+    var latlong2 = locate(p2, true);
+    
+    $.when(d).done( function() {
+	var dLat = rad(latlong1[0] - latlong2[0]);
+	var dLong = rad(latlong1[1] - latlong2[1]);
+	var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+	    Math.cos(rad(latlong1[0])) * Math.cos(rad(latlong2[0])) *
+	    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	var d = R * c;
+	d = d*0.000621371;//meters to miles
+	console.log(d);
+	$.ajax({
+	    url: "/",
+            data: d,
+	    type: "POST"
+        });
+    });
+};
+    
+
 google.maps.event.addDomListener(window, 'load', initialize);

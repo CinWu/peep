@@ -283,7 +283,9 @@ def events(eventname=None):
         if request.method == "POST":
             peep = request.form['peep']
             at = request.form['at']
-            data = manager.eventSearch(peep)        
+            data = manager.eventSearch(peep)
+            if at != "":
+                data = sortByDist(data, at)
             #if data is null return some text
         elif request.method == "GET":
             data = manager.eventSearch("")
