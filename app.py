@@ -168,7 +168,6 @@ def register():
                 if username == d[0]:
                     registered=False
                     reason="The username "+username+" already exists!"
-                    print "Username % is already in use" %username
                  
             pvalidate = manager.validateEntry(password)
             if pvalidate != "":
