@@ -328,3 +328,12 @@ def remMember(eventid, username):
     conn.commit()
     conn.close()
 
+def removeExpired(events):
+    temp = []
+    index = 0
+    for a in events:
+        if not expired(a[0]):
+            break
+        index = index + 1
+    temp = events[index:]
+    return temp

@@ -250,11 +250,16 @@ def login():
 @app.route("/profile/<username>",methods=['GET','POST'])
 def profile(username=None):
     ids=manager.getIDs()
+    data = manager.getEventData()
     if username in ids:
         pfirst = manager.getFirst(username)
         plast = manager.getLast(username)
         pemail = manager.getEmail(username)
         pphone = manager.getPhone(username)
+        taccepted = manager.getAccepted(username)
+        paccepted = []
+        for a in taccepted:
+            paccepted.append(int(a))
         if 'username' in session:
             ausername=session['username']
             first = manager.getFirst(ausername)
@@ -263,8 +268,8 @@ def profile(username=None):
             phone = manager.getPhone(ausername)
             created = manager.getCreated(ausername)
             accepted= manager.getAccepted(ausername)
-            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail, username=ausername, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
-        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail)
+            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail, username=ausername, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,paccepted=paccepted, events=data)
+        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail,paccepted=paccepted,events=data)
     else:
         return redirect("/")
 
@@ -285,8 +290,8 @@ def events(eventname=None):
             at = request.form['at']
             data = manager.eventSearch(peep)        
             #if data is null return some text
-        elif request.method == "GET":
-            data = manager.eventSearch("")
+        data.sort(key=lambda x:x[6])
+        data = manager.removeExpired(data)
         if 'username' in session:
             username = session['username']
             first = manager.getFirst(username)
@@ -323,14 +328,13 @@ def events(eventname=None):
                 if "leave" in request.form:
                     manager.remMember(eventname,username)
                     print username+" leaves event"
+                    return redirect("/events/"+eventname)
             if manager.getThisEventData(eventname)[3]==username:
                 button = "creator"
             else:
                 button = "request"
-                for a in accepted:
-                    if username in a:
-                        button = "leave"
-                        break
+                if username in eaccepted:
+                    button = "leave"
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
