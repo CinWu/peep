@@ -362,10 +362,10 @@ def editProfile(username=None,field=None):
                         #will finish later
 
                     
-                    return render_template(access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
                 else:
                     access = False
-                    return render_template(access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
 
         else:
             return redirect("/profile/"+username)
