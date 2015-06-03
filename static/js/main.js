@@ -93,15 +93,18 @@ function initialize() {
 	new google.maps.LatLng(-50, 100) 
     );
     map.fitBounds(defaultBounds);
-
+ 
+ 
     $.when(done).done(function() {
-	console.log(pos);
-	var userBounds = new google.maps.LatLngBounds(
-	    new google.maps.LatLng(pos['A']+.0025, pos['F']-.0025),
-	    new google.maps.LatLng(pos['A']-.0025, pos['F']+.0025) 
-	);	
-	map.fitBounds(userBounds);
+	if (!keepPos) {
+	    var userBounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(pos['A']+.0025, pos['F']-.0025),
+		new google.maps.LatLng(pos['A']-.0025, pos['F']+.0025) 
+	    );	
+	    map.fitBounds(userBounds);
+	}
     });
+
 
     var input = (
 	document.getElementById('address'));
@@ -201,16 +204,26 @@ function handleNoGeolocation(errorFlag) {
     map.setCenter(options.position);
 }
 
+var keepPos = false;
+
 function address(place) {
     var address = place;
 
     geocoder.geocode( { 'address': address}, function(results, status) {
+	var pos = results[0].geometry.location;
 	if (status == google.maps.GeocoderStatus.OK) {
 	    map.setCenter(results[0].geometry.location);
 	    var marker = new google.maps.Marker({
 		map: map,
 		position: results[0].geometry.location
 	    });
+
+	    var bounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(pos['A']+.01, pos['F']-.01),
+		new google.maps.LatLng(pos['A']-.01, pos['F']+.01) 
+	    );
+	    map.fitBounds(bounds);
+	    keepPos = true;
 	} 
 	else {
 	}
