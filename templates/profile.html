@@ -7,23 +7,35 @@
   <tr>
     <td width='10%'><b>Name</b></td>
     <td>{{pfirst}} {{plast}}<br></td>
+    {% if username==pusername %}
+    <td> <a href="/edit/{{username}}/name"> Edit </a> </td>
+    {% endif %}
   </tr>
   <tr>
     <td><b>Phone</b></td>
     <td>{{pphone}}<br></td>
+    {% if username==pusername %}
+    <td> <a href="/edit/{{username}}/phone"> Edit </a> </td>
+    {% endif %}
   </tr>
   <tr>
     <td><b>Email</b></td>
     <td>{{pemail}}<br></td>
+    {% if username==pusername %}
+    <td> <a href="/edit/{{username}}/email"> Edit </a> </td>
+    {% endif %}
   </tr>  
   <tr>
     <td><b>Facebook</b></td>
     <td>{{fb}}<br></td>
+    {% if username==pusername %}
+    <td> <a href="/edit/{{username}}/facebook"> Edit </a> </td>
+    {% endif %}
   </tr>  
-  <tr>
+   <tr>
     <td><b>Events Participating in </b> </td>
     <td> {% for a in paccepted %}
-      <a href="/events/{{a}}"> {{events[a][2]}} </a> <br>
+      <a href="/events/{{a-1}}"> {{events[a-1][2]}} </a> <br>
       {% endfor %}
     </td>
   </tr>

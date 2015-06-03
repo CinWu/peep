@@ -339,6 +339,38 @@ def events(eventname=None):
                     button = "pending"
         return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted)
 
+@app.route("/edit",methods=['GET','POST'])
+@app.route("/edit/<user>", methods=['GET', 'POST'])
+@app.route("/edit/<user>/<field>", methods=['GET', 'POST'])
+
+def editProfile(username=None,field=None):
+    if user:
+        if field:
+            if 'username' in session:
+                username = session['username']
+                first = manager.getFirst(username)
+                last = manager.getLast(username)
+                email = manager.getEmail(username)
+                phone = manager.getPhone(username)
+                facebook = manager.getFacebook(username)
+                created = manager.getCreated(username)
+                accepted= manager.getAccepted(username)
+
+                access = True
+                if username == user:
+                    if request.method == "POST":
+                        #will finish later
+
+                    
+                    return render_template(access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
+                else:
+                    access = False
+                    return render_template(access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+
+        else:
+            return redirect("/profile/"+username)
+    return redirect("/")
+
 if __name__ == "__main__":
     app.debug = True
     app.secret_key = "peep"

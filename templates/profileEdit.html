@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block text %}
+
+<h2>{{pusername}}'s Profile</h2>
+
+{% if access %}
+
+<form>
+<table id='profile' class='table'>
+  <tr>
+    {% if field == "name" %}
+    <td width='10%'><b>First Name</b></td><input required type="text" name="first" placeholder="{{first}}"></input></tr><tr>
+    <td width='10%'><b>Last Name</b></td><input required type="text" name="last" placeholder="{{last}}"></input>
+    {% endif %}
+    {% if field == "phone" %}
+    <td width='10%'><b>Phone</b></td><input required type="text" name="phone" placeholder="{{phone}}"></input>
+    {% endif %}
+    {% if field == "email" %}
+    <td width='10%'><b>Email</b></td><input required type="text" name="email" placeholder="{{email}}"></input>
+    {% endif %}
+    {% if field == "facebook" %}
+    <td width='10%'><b>Facebook</b></td><input type="text" name="facebook" placeholder="{{facebook}}"></input>
+    {% endif %}
+
+  </tr>
+</table>    
+<button type="submit">Save</button><br>
+<button type="reset" onclick="/profile/{{username}}">Cancel</button><br><br><br><br><br>
+
+</form>
+
+{% endif %}
+{% if access == False %}
+    <font size=20 face="License Plate"> You do not have access rights! </font>
+{% endif %}
+
+{% endbock %}
