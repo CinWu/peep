@@ -360,8 +360,7 @@ def editProfile(username=None,field=None):
                 if username == user:
                     if request.method == "POST":
                         #will finish later
-
-                    
+                        pass
                     return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
                 else:
                     access = False
