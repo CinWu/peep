@@ -287,7 +287,7 @@ def events(eventname=None):
         if request.method == "POST":
             peep = request.form['peep']
             at = request.form['at']
-            data = manager.eventSearch(peep)        
+            data = manager.eventSearch(peep, at)        
             #if data is null return some text
         data.sort(key=lambda x:x[6])
         data = manager.removeExpired(data)

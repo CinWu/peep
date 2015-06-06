@@ -190,18 +190,18 @@ def expired(eventid):
  
     return expired
         
-
-def eventSearch(keyword):
+def eventSearch(keyword, keyloc):
     data = getEventData()
     res = []
     for e in data:
         if not expired(e[0]):
-            if keyword == "":
+            if keyword == "" and keyloc == "":
                 res.append(e)
-            else:
+            elif keyword != "":
                 tags = e[7].split("#")
                 name = e[2].split(' ')
                 desc = e[4].split(" ")
+                
                 for n in name:
                     if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
                         res.append(e)
@@ -214,6 +214,9 @@ def eventSearch(keyword):
                     if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
                          and e not in res ):
                         res.append(e)
+            else:
+                if ( keyloc.lower() in e[5].lower() and e not in res ): 
+                    res.append(e)
     return res
 
 def getCreated(username):

@@ -39,7 +39,7 @@ $( document ).ready(function() {
 	var loc = $("#address").val();
 
 	if (event == "" || date=="" || time=="" || des=="" || loc==""){
-	    alert("must fill out fields")
+	    alert("Please fill out all fields.")
 	}
 
 	else {
@@ -124,26 +124,26 @@ function initialize() {
 
 	markers = [];
 	var bounds = new google.maps.LatLngBounds();
-	for (var i = 0, place; place = places[i]; i++) {
-	    var image = {
-		url: place.icon,
-		size: new google.maps.Size(71, 71),
-		origin: new google.maps.Point(0, 0),
-		anchor: new google.maps.Point(17, 34),
-		scaledSize: new google.maps.Size(25, 25)
-	    };
+	place = places[0];
+	var image = {
+	    url: place.icon,
+	    size: new google.maps.Size(71, 71),
+	    origin: new google.maps.Point(0, 0),
+	    anchor: new google.maps.Point(17, 34),
+	    scaledSize: new google.maps.Size(25, 25)
+	};
 
-	    // Create a marker for each place.
-	    var marker = new google.maps.Marker({
-		map: map,
-		title: place.name,
-		position: place.geometry.location,
-		animation: google.maps.Animation.DROP
-	    });
+	// Create a marker for each place.
+	var marker = new google.maps.Marker({
+	    map: map,
+	    title: place.name,
+	    position: place.geometry.location,
+	    animation: google.maps.Animation.DROP
+	});
 
-	    markers.push(marker);
-	    bounds.extend(place.geometry.location);
-	}
+	markers.push(marker);
+	bounds.extend(place.geometry.location);
+
 	map.fitBounds(bounds);
     });
 
@@ -206,11 +206,13 @@ function handleNoGeolocation(errorFlag) {
 
 var keepPos = false;
 
+//Center map at place
 function address(place) {
     var address = place;
 
     geocoder.geocode( { 'address': address}, function(results, status) {
 	var pos = results[0].geometry.location;
+	console.log(results);
 	if (status == google.maps.GeocoderStatus.OK) {
 	    map.setCenter(results[0].geometry.location);
 	    var marker = new google.maps.Marker({
@@ -231,6 +233,7 @@ function address(place) {
     });
 }
 
+//Center map at user's location
 function codeAddress() {
     var address = document.getElementById('address').value;
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -245,4 +248,5 @@ function codeAddress() {
 	}
     });
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
