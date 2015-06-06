@@ -197,7 +197,7 @@ def eventSearch(keyword, keyloc):
         if not expired(e[0]):
             if keyword == "" and keyloc == "":
                 res.append(e)
-            elif keyword != "":
+            elif keyword != "" and keyloc == "":
                 tags = e[7].split("#")
                 name = e[2].split(' ')
                 desc = e[4].split(" ")
@@ -214,7 +214,7 @@ def eventSearch(keyword, keyloc):
                     if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
                          and e not in res ):
                         res.append(e)
-            else:
+            elif keyloc != "" and keyword == "":
                 if ( keyloc.lower() in e[5].lower() and e not in res ): 
                     res.append(e)
     return res
