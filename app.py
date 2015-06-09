@@ -343,7 +343,7 @@ def events(eventname=None):
 @app.route("/edit/<user>", methods=['GET', 'POST'])
 @app.route("/edit/<user>/<field>", methods=['GET', 'POST'])
 
-def editProfile(username=None,field=None):
+def editProfile(user=None,field=None):
     if user:
         if field:
             if 'username' in session:
@@ -359,8 +359,20 @@ def editProfile(username=None,field=None):
                 access = True
                 if username == user:
                     if request.method == "POST":
-                        #will finish later
-                        pass
+                        if field == "name":
+                            first = request.form["first"]
+                            last = request.form["last"]
+                            manager.updateName(username,first,last)
+                        if field == "phone":
+                            phone = request.form["phone"]
+                            manager.updatePhone(username,phone)
+                        if field == "email":
+                            email = request.form["email"]
+                            manager.updateEmail(username,email)
+                        if field == "facebook":
+                            facebook = request.form["facebook"]
+                            manager.updateFacebook(username,facebook)
+                        return redirect("/profile/"+user)
                     return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
                 else:
                     access = False

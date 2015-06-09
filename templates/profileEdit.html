@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {% block text %}
-
-<h2>{{pusername}}'s Profile</h2>
+<br><br>
+<h2>{{username}}'s Profile</h2>
 
 {% if access %}
 
-<form>
+<form method="POST">
 <table id='profile' class='table'>
   <tr>
     {% if field == "name" %}
-    <td width='10%'><b>First Name</b></td><input required type="text" name="first" placeholder="{{first}}"></input></tr><tr>
-    <td width='10%'><b>Last Name</b></td><input required type="text" name="last" placeholder="{{last}}"></input>
+    <td width='10%'><b>First Name</b></td><td><input required type="text" name="first" value="{{first}}"></input></td></tr><tr>
+    <td width='10%'><b>Last Name</b></td><td><input required type="text" name="last" value="{{last}}"></input></td>
     {% endif %}
     {% if field == "phone" %}
-    <td width='10%'><b>Phone</b></td><input required type="text" name="phone" placeholder="{{phone}}"></input>
+    <td width='10%'><b>Phone</b></td><td><input required type="number" name="phone" value="{{phone}}"></input></td>
     {% endif %}
     {% if field == "email" %}
-    <td width='10%'><b>Email</b></td><input required type="text" name="email" placeholder="{{email}}"></input>
+    <td width='10%'><b>Email</b></td><td><input required type="email" name="email" value="{{email}}"></input></td>
     {% endif %}
     {% if field == "facebook" %}
-    <td width='10%'><b>Facebook</b></td><input type="text" name="facebook" placeholder="{{facebook}}"></input>
+    <td width='10%'><b>Facebook</b></td><td><input type="text" name="facebook" value="{{facebook}}"></input></td>
     {% endif %}
 
   </tr>
 </table>    
 <button type="submit">Save</button><br>
-<button type="reset" onclick="/profile/{{username}}">Cancel</button><br><br><br><br><br>
+<button><a href="/profile/{{username}}">Cancel</a></button><br><br><br><br><br>
 
 </form>
 
@@ -34,4 +34,4 @@
     <font size=20 face="License Plate"> You do not have access rights! </font>
 {% endif %}
 
-{% endbock %}
+{% endblock %}

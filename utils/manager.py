@@ -340,3 +340,35 @@ def removeExpired(events):
         index = index + 1
     temp = events[index:]
     return temp
+
+def updateName(username,first,last):
+    conn=sqlite3.connect("databases/users.db")
+    c = conn.cursor()
+    command = "update uinfo set first='"+first+"',last='"+last+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def updatePhone(username,phone):
+    conn=sqlite3.connect("databases/users.db")
+    c = conn.cursor()
+    command = "update uinfo set phone='"+phone+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def updateEmail(username,email):
+    conn=sqlite3.connect("databases/users.db")
+    c = conn.cursor()
+    command = "update uinfo set email='"+email+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def updateFacebook(username,facebook):
+    conn=sqlite3.connect("databases/users.db")
+    c = conn.cursor()
+    command = "update uinfo set facebook='"+facebook+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
