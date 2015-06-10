@@ -43,8 +43,11 @@ def home():
             if request.form["status"]=="approve":
                 user = request.form["user"]
                 event = request.form["event"]
+                print user
                 manager.addMember(event, user)
+                print event
                 manager.removeRequest(event, user)
+                print 123
                 accepted= manager.getAccepted(username)
                 accepted.reverse()
                 requests = manager.getRequests(session['username'])
@@ -200,6 +203,7 @@ def register():
 def login():
     ids= manager.getIDs()
     if 'username' in session:
+        luser = session['username']
         return render_template("login.html", loggedin=True, username=luser,ids=ids)
         
     if request.method=='POST':

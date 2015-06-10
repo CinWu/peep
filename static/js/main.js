@@ -1,7 +1,18 @@
-$( document ).ready(function() {
-    $("#approve").on('click', function() {
+var key = function(val, dict) {
+    for ( i = 0; i < dict.length; i++ ) {
+	console.log(val);
+	console.log(dict[i]);
+	if ( dict[i] == val ){
+	    console.log("yes");
+	    return i;}
+    };
+    return null
+};
 
-	$("#approve").remove();
+$( document ).ready(function() {
+    $("[id=approve]").on('click', function() {
+	console.log(this);
+	$(this).remove();
 	$("#reject").remove();
 	var button="<button type='button' class='btn-xs btn-success disabled'>Approved</button>";
 	$("#notifs").append(button);
@@ -15,14 +26,17 @@ $( document ).ready(function() {
         });    
     });
 
-    $("#reject").on('click', function() {
-	$("#approve").remove();
-	$("#reject").remove();
+    $("[id=reject]").on('click', function() {
+	console.log(20);
+	console.log($("[id=reject]"));
+	var i = key(this,$("[id=reject]"));
+	$( $("[id=approve]")[i] ).remove();
+	$(this).remove();
 	var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
 	$("#notifs").append(button);
 
 	data = $('#notifs').serialize();
-	data += "&status=reject"
+	data += "&status=reject";
 	$.ajax({
 	    url: "/",
             data: data,
