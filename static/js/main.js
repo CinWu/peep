@@ -1,7 +1,5 @@
 var key = function(val, dict) {
     for ( i = 0; i < dict.length; i++ ) {
-	console.log(val);
-	console.log(dict[i]);
 	if ( dict[i] == val ){
 	    console.log("yes");
 	    return i;}
@@ -30,12 +28,15 @@ $( document ).ready(function() {
 	console.log(20);
 	console.log($("[id=reject]"));
 	var i = key(this,$("[id=reject]"));
-	$( $("[id=approve]")[i] ).remove();
+	$( $("[id=approve]")[""+i] ).remove();
 	$(this).remove();
 	var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
-	$("#notifs").append(button);
+	$("[id=notifs]")[""+i].append(button);
 
-	data = $('#notifs').serialize();
+	console.log(i);
+	console.log($("[id=notifs]")[i]);
+	console.log($("[id=notifs]")[i]);
+	data = $("[id=notifs]")[""+i].serialize();
 	data += "&status=reject";
 	$.ajax({
 	    url: "/",
