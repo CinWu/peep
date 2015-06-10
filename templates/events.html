@@ -7,7 +7,7 @@
 <i> {{ data|count }} event(s) found. </i><br><br>
 
 {% elif data|count == 1 and search != "" %}
-<h2> {{ data[0][2] }} </h2> {% if button == "pending" %} PENDING ADMIN APPROVAL {% endif %} {% if button == "cancel" %} ACCEPTED {% endif %}    
+<h2> {{ data[0][2] }} </h2> {% if button == "pending" %} <div class="alert alert-warning" role="alert"> <span class="glyphyicon glyphicon-hourglass"></span> Pending admin approval.</div> {% endif %} {% if button == "cancel" %} <div class="alert alert-success" role="alert"> <span class="glyphicon glyphicon-ok-sign"></span> Accepted! </div>{% endif %}    
 <form method="post">
   {% if button=="none" %}
   <a href='/login'>Log in</a> to join this event!

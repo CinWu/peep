@@ -299,7 +299,7 @@ def events(eventname=None):
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
-        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=data)
     else:
         newdata=[]
         eaccepted = manager.getAccepted(eventname)
@@ -337,7 +337,7 @@ def events(eventname=None):
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
-        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted)
+        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted, events=data)
 
 @app.route("/edit",methods=['GET','POST'])
 @app.route("/edit/<user>", methods=['GET', 'POST'])

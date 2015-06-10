@@ -12,6 +12,10 @@ body {
     padding-bottom: 50px;
 }
 
+.alert {
+padding: 8px;
+}
+
 hr {
       border: none;
       height: 1px;
