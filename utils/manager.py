@@ -364,7 +364,7 @@ def getAcceptedPast(username):
     pastaccepted = []
     for x in allaccepted:
         if x not in currentaccepted:
-            pastaccepted.append(x[0])
+            pastaccepted.append(x)
     return pastaccepted
 
 def getEventAccepted(eventid):

@@ -32,12 +32,9 @@ def home():
         accepted.reverse()
         pending=manager.getPending(username)
         pending.reverse()
-        print "CREATED"
-        print created
-        print "ACCEPTED"
-        print accepted
-        print "PENDING"
-        print pending
+        pastevents=manager.getAcceptedPast(username)
+        pastevents.reverse()
+        print pastevents
         if request.method == 'POST':
             print request.form
             if request.form["status"]=="approve":
@@ -55,7 +52,7 @@ def home():
                 manager.removeRequest(event, user)
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
-        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email)
+        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email, pastevents=pastevents)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -242,8 +239,10 @@ def login():
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
-            return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted) 
-        return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids)
+            events = manager.getEventData()
+            print events
+            return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events) 
+        return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids, events=events)
     else:
         return render_template("login.html", loggedin=False, ids=ids)
 
