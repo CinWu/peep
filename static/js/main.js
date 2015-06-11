@@ -24,19 +24,22 @@ $( document ).ready(function() {
         });    
     });
 
+    console.log(2);
     $("[id=reject]").on('click', function() {
-	console.log(20);
 	console.log($("[id=reject]"));
 	var i = key(this,$("[id=reject]"));
-	$( $("[id=approve]")[""+i] ).remove();
+
+	console.log($(".notifs").eq(i));
+	$("[id=approve]")[i].remove();
 	$(this).remove();
 	var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
-	$("[id=notifs]")[""+i].append(button);
+	console.log($(".notifs").append(button);
 
-	console.log(i);
-	console.log($("[id=notifs]")[i]);
-	console.log($("[id=notifs]")[i]);
-	data = $("[id=notifs]")[""+i].serialize();
+	$((".notifs").eq(i)).append(button);
+	console.log("ello");
+
+	data = $("[id=notifs]")[i].serialize();
+	console.log(true);
 	data += "&status=reject";
 	$.ajax({
 	    url: "/",
