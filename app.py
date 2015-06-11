@@ -76,6 +76,7 @@ def about():
 def create():
     username = ""
     ids=manager.getIDs()
+    data = manager.getEventData()
     if 'username' in session:
         loggedin=True
         username=session['username']
@@ -103,7 +104,7 @@ def create():
                 manager.addEvent(dtime,event,username,description,location,date,tags)
                 return redirect("/events")
         else:
-            return render_template("makeEvents.html",loggedin=loggedin,ids=ids,username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted)
+            return render_template("makeEvents.html",loggedin=loggedin,ids=ids,username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted,events=data)
     else:
         return render_template("makeEvents.html",loggedin=False,ids=ids)
   
@@ -291,6 +292,7 @@ def events(eventname=None):
             #if data is null return some text
         data.sort(key=lambda x:x[6])
         data = manager.removeExpired(data)
+        events = manager.getEventData()
         if 'username' in session:
             username = session['username']
             first = manager.getFirst(username)
@@ -299,10 +301,10 @@ def events(eventname=None):
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
-        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=data)
+        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events)
     else:
         newdata=[]
-        eaccepted = manager.getAccepted(eventname)
+        eaccepted = manager.getEventAccepted(eventname)
         if int(eventname) > len(data):
             return render_template("error.html")
         newdata.append(data[int(eventname)-1])
@@ -328,6 +330,8 @@ def events(eventname=None):
                     manager.remMember(eventname,username)
                     print username+" leaves event"
                     return redirect("/events/"+eventname)
+            print "THIS SHOULD BE A NUMBER"
+            print eventname
             if manager.getThisEventData(eventname)[3]==username:
                 button = "creator"
             else:
@@ -373,10 +377,10 @@ def editProfile(user=None,field=None):
                             facebook = request.form["facebook"]
                             manager.updateFacebook(username,facebook)
                         return redirect("/profile/"+user)
-                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field,user=user)
                 else:
                     access = False
-                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,user=user)
 
         else:
             return redirect("/profile/"+username)

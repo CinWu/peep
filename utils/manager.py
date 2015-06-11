@@ -134,8 +134,11 @@ def getThisEventData(eventid):
     c = conn.cursor()
     command = "select * from 'events' where id='"+str(eventid)+"'"
     c.execute(command)
+    print command
     data=c.fetchall()
     conn.close()
+    if len(data) < 1:
+        return []
     return data[0]
 
 ##Get the event name
@@ -239,19 +242,6 @@ def getPending(username):
     conn.close()
     return pending
 
-def getAccepted(username):
-    conn = sqlite3.connect("databases/events.db")
-    c = conn.cursor()
-    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
-    c.execute(command)
-    command = "select * from '"+username+"'"
-    c.execute(command)
-    tabledata=c.fetchall()
-    accepted = []
-    for data in tabledata:
-        accepted.append(data[0])
-    return accepted
-
 ##get requests directed at this user
 def getRequests(username):
     conn = sqlite3.connect("databases/requests.db")
@@ -333,13 +323,61 @@ def remMember(eventid, username):
 
 def removeExpired(events):
     temp = []
-    index = 0
     for a in events:
-        if not expired(a[0]):
-            break
-        index = index + 1
-    temp = events[index:]
+        try:
+            isInt = int(a)
+        except TypeError:
+            isInt = 0
+        if isInt:
+            if not expired(a):
+                temp.append(a)
+        else:
+            if not expired(a[0]):
+                temp.append(a)
     return temp
+
+def getAccepted(username):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
+    c.execute(command)
+    command = "select * from '"+username+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    accepted = []
+    for data in tabledata:
+        accepted.append(data[0])
+    return removeExpired(accepted)
+
+def getAcceptedPast(username):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event)"
+    c.execute(command)
+    command = "select * from '"+username+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    allaccepted = []
+    for data in tabledata:
+        allaccepted.append(data[0])
+    currentaccepted = getAccepted(username)
+    pastaccepted = []
+    for x in allaccepted:
+        if x not in currentaccepted:
+            pastaccepted.append(x[0])
+    return pastaccepted
+
+def getEventAccepted(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    print int(eventid)
+    command = "select * from '"+str(eventid)+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    accepted = []
+    for a in tabledata:
+        accepted.append(a[0])
+    return accepted
 
 def updateName(username,first,last):
     conn=sqlite3.connect("databases/users.db")

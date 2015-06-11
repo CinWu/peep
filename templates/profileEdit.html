@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block text %}
 <br><br>
-<h2>{{username}}'s Profile</h2>
+<h2>{{user}}'s Profile</h2>
 
 {% if access %}
 
@@ -13,7 +13,7 @@
     <td width='10%'><b>Last Name</b></td><td><input required type="text" name="last" value="{{last}}"></input></td>
     {% endif %}
     {% if field == "phone" %}
-    <td width='10%'><b>Phone</b></td><td><input required type="number" name="phone" value="{{phone}}"></input></td>
+    <td width='10%'><b>Phone</b></td><td><input required type="tel" name="phone" value="{{phone}}"></input></td>
     {% endif %}
     {% if field == "email" %}
     <td width='10%'><b>Email</b></td><td><input required type="email" name="email" value="{{email}}"></input></td>
