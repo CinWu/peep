@@ -33,10 +33,10 @@
 		<tr>
 		  <td width="75px">{{ctr}}{% set ctr = ctr+1 %}</td>
 		  <td>
-		    <form method="post" id="notifs">
+		    <form method="post" id="notifs{{ctr-1}}">
 		      <a href="/profile/{{r[2]}}">{{r[2]}}</a> wants to join <a href="/events/{{r[1]}}">{{events[r[1]-1][2]}}</a>
-		      <button name="approve" id="approve">Approve</button>
-		      <button name="reject" id="reject">Reject</button>
+		      <button onclick="accept(this,{{ctr-1}})" name="approve" id="approve{{ctr-1}}">Approve</button>
+		      <button onclick="decline(this,{{ctr-1}})" name="reject" id="reject{{ctr-1}}">Reject</button>
 		      <input type="hidden" name="user" value="{{r[2]}}" />
 		      <input type="hidden" name="event" value="{{events[r[1]-1][0]}}" />      
 		    </form>

@@ -7,47 +7,39 @@ var key = function(val, dict) {
     return null
 };
 
+var accept = function(but,id) {
+    $(but).remove();
+    $("#reject"+id).remove();
+    var button="<button type='button' class='btn-xs btn-success disabled'>Approved</button>";
+    $("#notifs"+id).append(button);
+
+    data = $('#notifs'+id).serialize();
+    data += "&status=approve";
+    $.ajax({
+	url: "/",
+        data: data,
+	type: "POST"
+    });    
+};
+
+var decline = function(but,id) {
+    $(but).remove();
+    $("#approve"+id).remove();
+    var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
+    $("#notifs"+id).append(button);
+
+    data = $('#notifs'+id).serialize();
+    data += "&status=reject";
+    $.ajax({
+	url: "/",
+        data: data,
+	type: "POST"
+    });    
+};
+
+
 $( document ).ready(function() {
-    $("[id=approve]").on('click', function() {
-	console.log(this);
-	$(this).remove();
-	$("#reject").remove();
-	var button="<button type='button' class='btn-xs btn-success disabled'>Approved</button>";
-	$("#notifs").append(button);
-	
-	data = $('#notifs').serialize();
-	data += "&status=approve"
-	$.ajax({
-	    url: "/",
-            data: data,
-	    type: "POST"
-        });    
-    });
-
-    console.log(2);
-    $("[id=reject]").on('click', function() {
-	console.log($("[id=reject]"));
-	var i = key(this,$("[id=reject]"));
-
-	console.log($(".notifs").eq(i));
-	$("[id=approve]")[i].remove();
-	$(this).remove();
-	var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
-	console.log($(".notifs").append(button);
-
-	$((".notifs").eq(i)).append(button);
-	console.log("ello");
-
-	data = $("[id=notifs]")[i].serialize();
-	console.log(true);
-	data += "&status=reject";
-	$.ajax({
-	    url: "/",
-            data: data,
-	    type: "POST"
-        });  
-    });
-
+    console.log(true);
     $("#createE").on('click', function() {
 	var event = $("#event").val();
 	var date = $("#date").val();
