@@ -1,34 +1,34 @@
+var accept = function(but,id) {
+    $(but).remove();
+    $("#reject"+id).remove();
+    var button="<button type='button' class='btn-xs btn-success disabled'>Approved</button>";
+    $("#notifs"+id).append(button);
+
+    data = $('#notifs'+id).serialize();
+    data += "&status=approve";
+    $.ajax({
+	url: "/",
+        data: data,
+	type: "POST"
+    });    
+};
+
+var decline = function(but,id) {
+    $(but).remove();
+    $("#approve"+id).remove();
+    var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
+    $("#notifs"+id).append(button);
+
+    data = $('#notifs'+id).serialize();
+    data += "&status=reject";
+    $.ajax({
+	url: "/",
+        data: data,
+	type: "POST"
+    });    
+};
+
 $( document ).ready(function() {
-    $("#approve").on('click', function() {
-
-	$("#approve").remove();
-	$("#reject").remove();
-	var button="<button type='button' class='btn-xs btn-success disabled'>Approved</button>";
-	$("#notifs").append(button);
-	
-	data = $('#notifs').serialize();
-	data += "&status=approve"
-	$.ajax({
-	    url: "/",
-            data: data,
-	    type: "POST"
-        });    
-    });
-
-    $("#reject").on('click', function() {
-	$("#approve").remove();
-	$("#reject").remove();
-	var button="<button type='button' class='btn-xs btn-danger disabled'>Rejected</button>";
-	$("#notifs").append(button);
-
-	data = $('#notifs').serialize();
-	data += "&status=reject"
-	$.ajax({
-	    url: "/",
-            data: data,
-	    type: "POST"
-        });  
-    });
 
     $("#createE").on('click', function() {
 	var event = $("#event").val();
