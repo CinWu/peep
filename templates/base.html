@@ -43,18 +43,13 @@
       <div class="col-sm-3"><!--left col-->
         
         <ul class="list-group">
-          <li class="list-group-item text-muted">Info</li>
+          <li class="list-group-item text-muted"><a href="/profile/{{username}}">{{username}}</a></li>
           <li class="list-group-item text-right"><span class="pull-left"><strong>Name</strong></span>{{first}} {{last}}</li>
           <!--- <li class="list-group-item text-right"><span class="pull-left"><strong>Studies at</strong></span> School Name</li> --->
           <li class="list-group-item text-right"><span class="pull-left"><strong>Phone Number</strong></span> {{phone}}</li>          
 	  <li class="list-group-item text-right"><span class="pull-left"><strong>Email Address</strong></span> {{email}}</li>
         </ul> 
             
-        <ul class="list-group">
-          <li class="list-group-item text-muted">Events <i class="fa fa-dashboard fa-1x"></i></li>
-          <li class="list-group-item text-right"><span class="pull-left"><a href="/home#created" data-toggle="tab"><strong>Your Events</strong></a></span> {{created|length}}</li>
-          <li class="list-group-item text-right"><span class="pull-left"><a href="/home#attending" data-toggle="tab"><strong>Events Attended</strong></a></span> {{accepted|length}}</li>
-        </ul> 
       </div>
       {% endif %}
       {% if 'username' in session %}

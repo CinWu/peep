@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block text %}
+
+
+
+<h2>{{editevent[2]}}</h2>
+{% if access %}
+
+<form method="post"
+      <div class='row'>
+	<div class='col-md-offset-1'>
+	  <table id='profile' class='table'>
+	    <tr> <td width='10%'> <b> Name: </b></td>
+	      <td><input required type="text" name="name" value="{{editevent[2]}}"></input> </td> </tr>
+	    <tr> <td width='10%'> <b> Date: </b></td>
+	      <td><input required type="date" name="date" value="{{editevent[6][:10]}}"></input> </td> </tr>
+	    <tr> <td width='10%'> <b> Time: </b></td>
+	      <td><input required type="time" name="time" value="{{editevent[6][11:]}}"></input> </td> </tr>
+	    <tr> <td width='10%'> <b> Description: </b></td>
+	      <td><input required type="text" name="description" value="{{editevent[4]}}" maxlength="500"></input> </td> </tr>
+	    <tr> <td width='10%'> <b> Tags: </b></td>
+	      <td><input type="text" name="tags" value="{{editevent[7]}}"  maxlength="100"></input> </td> </tr>
+	    <tr> <td width='10%'> <b> Location: </b></td>
+	      <td><input required id="address" type="text" name="location" value="{{editevent[5]}}" maxlength="30"></input> <br>
+	    <div id="map-canvas"></div></td></tr>
+	    </table>
+	  <button type="submit">Update</button><br>
+	  <button><a href="/events/{{editevent[0]}}">Cancel</a></button><br><br><br><br><br>
+
+	</div>
+      </div>
+      
+</form>
+
+
+{% endif %}
+{% if access == False %}
+    <font size=20 face="License Plate"> You do not have access rights! </font>
+{% endif %}
+
+{% endblock %}

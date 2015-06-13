@@ -358,7 +358,7 @@ def editProfile(user=None,field=None):
                 facebook = manager.getFacebook(username)
                 created = manager.getCreated(username)
                 accepted= manager.getAccepted(username)
-
+                events = manager.getEventData()
                 access = True
                 if username == user:
                     if request.method == "POST":
@@ -376,14 +376,48 @@ def editProfile(user=None,field=None):
                             facebook = request.form["facebook"]
                             manager.updateFacebook(username,facebook)
                         return redirect("/profile/"+user)
-                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field,user=user)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field,user=user,events=events)
                 else:
                     access = False
-                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,user=user)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,user=user,events=events)
 
         else:
             return redirect("/profile/"+username)
     return redirect("/")
+
+
+@app.route("/eventedit",methods=['GET','POST'])
+@app.route("/eventedit/<event>", methods=['GET', 'POST'])
+def eventEdit(event=None):
+    if event:
+        if 'username' in session:
+            username = session['username']
+            first = manager.getFirst(username)
+            last = manager.getLast(username)
+            email = manager.getEmail(username)
+            phone = manager.getPhone(username)
+            facebook = manager.getFacebook(username)
+            created = manager.getCreated(username)
+            accepted= manager.getAccepted(username)
+            events = manager.getEventData()
+            editevent = events[int(event)-1]
+            access = True
+            if username == editevent[3]:
+                if request.method == "POST":
+                    
+                    name = request.form["name"]
+                    location = request.form["location"]
+                    description = request.form["description"]
+                    tags = request.form["tags"]
+                    date=request.form["date"]+" "+request.form["time"]
+                    print "BLAH"
+                    manager.updateEvent(event,name,location,description,tags,date)
+                    return redirect("/events/"+event)
+                return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,events=events,editevent=editevent)
+            else:
+                access = False
+                return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,events=events,editevent=editevent)
+    return redirect("/events")
 
 if __name__ == "__main__":
     app.debug = True

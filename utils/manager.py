@@ -100,7 +100,6 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
     command = "CREATE TABLE IF NOT EXISTS '" + user +"' (event text)"
     c.execute(command)
     command = "insert into '"+user+"' (event) values ('"+str(idnum)+"')"
-    print command
     c.execute(command)
     conn.commit()
     conn.close()
@@ -134,7 +133,6 @@ def getThisEventData(eventid):
     c = conn.cursor()
     command = "select * from 'events' where id='"+str(eventid)+"'"
     c.execute(command)
-    print command
     data=c.fetchall()
     conn.close()
     if len(data) < 1:
@@ -301,12 +299,10 @@ def addMember(eventid, username):
     c = conn.cursor()
     dtime = datetime.now().strftime('%Y-%m-%d')
     command = "insert into '"+str(eventid)+"' (username, date) values ('"+username+"','"+dtime+"')"
-    print command
     c.execute(command)
     command = "CREATE TABLE IF NOT EXISTS '" + username +"' (event text)"
     c.execute(command)
     command = "insert into '"+username+"' (event) values ('"+str(eventid)+"')"
-    print command
     c.execute(command)
     conn.commit()
     conn.close()
@@ -407,6 +403,15 @@ def updateFacebook(username,facebook):
     conn=sqlite3.connect("databases/users.db")
     c = conn.cursor()
     command = "update uinfo set facebook='"+facebook+"' where username='"+username+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def updateEvent(event,name,location,description,tags,date):
+    conn=sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "update events set eventname='"+name+"',description='"+description+"',location='"+location+"',tags='"+tags+"',time='"+date+"' where id='"+event+"'"
+    print command
     c.execute(command)
     conn.commit()
     conn.close()
