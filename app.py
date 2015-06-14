@@ -274,7 +274,8 @@ def profile(username=None):
 
 @app.route("/events",methods=['GET','POST'])
 @app.route("/events/<eventname>", methods=['GET', 'POST'])
-def events(eventname=None):
+@app.route("/events/<eventname>/<tag>", methods=['GET','POST'])
+def events(eventname=None,tag=None):
     username=""
     first=""
     last=""
@@ -284,16 +285,9 @@ def events(eventname=None):
     accepted=""
     manager.updateExpired()
     data = manager.getEventData()
-    if eventname==None:
-        if request.method == "POST":
-            peep = request.form['peep']
-            at = request.form['at']
-            data = manager.eventSearch(peep, at)        
-            #if data is null return some text
-        data = manager.getOngoingEvents()
-        data.sort(key=lambda x:x[6])
-        events = manager.getEventData()
-        if 'username' in session:
+    tags = manager.getAllTags()
+    events = manager.getEventData()
+    if 'username' in session:
             username = session['username']
             first = manager.getFirst(username)
             last = manager.getLast(username)
@@ -301,7 +295,21 @@ def events(eventname=None):
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
-        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events)
+    if eventname==None:
+        data = manager.getOngoingEvents()
+        if request.method == "POST":
+            peep = request.form['peep']
+            at = request.form['at']
+            data = manager.eventSearch(peep, at)        
+            #if data is null return some text
+        data.sort(key=lambda x:x[6])
+        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,tags=tags, oneevent=False)
+    elif eventname=="tags":
+        if tag:
+            data = manager.getEventByTag(tag)
+            return render_template('events.html',data=data, username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events,tags=tags,oneevent=False)
+        return redirect("/events")
+        
     else:
         newdata=[]
         eaccepted = manager.getEventAccepted(eventname)
@@ -311,13 +319,6 @@ def events(eventname=None):
         ##no button if user is not logged in
         button = "none"
         if 'username' in session:
-            username = session['username']
-            first = manager.getFirst(username)
-            last = manager.getLast(username)
-            email = manager.getEmail(username)
-            phone = manager.getPhone(username)
-            created = manager.getCreated(username)
-            accepted= manager.getAccepted(username)
             if request.method == "POST":
                 if "request" in request.form:
                     eventdata = manager.getEventData()
@@ -341,7 +342,7 @@ def events(eventname=None):
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
-        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted, events=data)
+        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted, events=data, tags=tags, oneevent=True)
 
 @app.route("/edit",methods=['GET','POST'])
 @app.route("/edit/<user>", methods=['GET', 'POST'])

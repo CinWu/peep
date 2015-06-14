@@ -143,16 +143,6 @@ def getThisEventData(eventid):
         return []
     return data[0]
 
-##Get the event name
-def getEvent(eventid):
-    conn = sqlite3.connect("databases/events.db")
-    c = conn.cursor()
-    command = "select eventname from 'events' where id='"+str(eventid)+"'"
-    c.execute(command)
-    data=c.fetchall()
-    conn.close()
-    return data
-
 ##check if event is passed
 def expired(eventid):
     expired = False
@@ -211,7 +201,7 @@ def unexpireEvent(eventid):
     conn.close()
         
 def eventSearch(keyword, keyloc):
-    data = getEventData()
+    data = getOngoingEvents()
     res = []
     for e in data:
         if not expired(e[0]):
@@ -452,3 +442,33 @@ def updateEvent(event,name,location,description,tags,date):
     c.execute(command)
     conn.commit()
     conn.close()
+    if not expired(event):
+        unexpireEvent(event)
+
+def getTags(eventid):
+    event  = getThisEventData(str(eventid))
+    print "BLAH" + str(eventid)
+    print event
+    tagstring = str(event[7])
+    tags = tagstring.split(" ")
+    for a in tags:
+        a.strip(',')
+    print "TAGS FOR " + event[2]
+    print tags
+    return tags
+
+def getAllTags():
+    events = getEventData()
+    tags = []
+    for e in events:
+        ind = int(e[0])
+        tags.append(getTags(ind))
+    return tags
+
+def getEventByTag(tag):
+    tagevents = []
+    events = getEventData()
+    for a in events:
+        if tag in getTags(int(a[0])):
+            tagevents.append(a)
+    return tagevents
