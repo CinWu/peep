@@ -66,7 +66,8 @@ def about():
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
-        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+        events = manager.getEventData()
+        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events)
     return render_template("about.html")
 
 @app.route("/create", methods=['GET', 'POST'])
@@ -74,6 +75,7 @@ def create():
     username = ""
     ids=manager.getIDs()
     data = manager.getEventData()
+
     if 'username' in session:
         loggedin=True
         username=session['username']
@@ -289,7 +291,7 @@ def events(eventname=None):
             peep = request.form['peep']
             at = request.form['at']
             data = manager.eventSearch(peep, at)        
-            #if data is null return some text
+            
         data = manager.getOngoingEvents()
         data.sort(key=lambda x:x[6])
         events = manager.getEventData()
