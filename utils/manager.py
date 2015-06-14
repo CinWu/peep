@@ -87,7 +87,7 @@ def userNotifTable(username):
 def addEvent(datetime,event,user,desc,loc,time,tags):    
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"')"
+    command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags,status) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"','Ongoing')"
     c.execute(command)
     conn.commit()
     c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+"'")
@@ -106,12 +106,16 @@ def addEvent(datetime,event,user,desc,loc,time,tags):
 
 #date-time,eventname,username,description,location,time,tags    
 def remEvent(eventid):
+    event = getThisEventData(eventid)
+    user = event[3]
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "DELETE FROM events WHERE id='" + str(eventid) + "'"
+    command = "UPDATE events set status='Removed' where id='"+str(eventid)+"'"
     c.execute(command)
-    data=c.fetchall()
+    conn.commit()
     command = "drop table '"+str(eventid)+"'"
+    c.execute(command)
+    command = "delete  from '"+user+"' where event='"+eventid+"'"
     c.execute(command)
     conn.commit()
     conn.close()
@@ -174,22 +178,37 @@ def expired(eventid):
     nminute = ntime.split(":")[1]
 
     if int(nyear) > int(year):
-
         expired = True
-    else:
-        if int(nmonth) > int(month) and int(nyear) == int(year):
+    elif int(nyear) == int(year):
+        if int(nmonth) > int(month):
             expired = True
-        else:
-            if int(nday) > int(day) and int(nmonth) == int(month):
+        elif int(nmonth) == int(month):
+            if int(nday) > int(day):
                 expired = True                
-            else:
-                if int(nhour) > int(hour) and int(nday) == int(day):
+            elif int(nday) == int(day):
+                if int(nhour) > int(hour):
                     expired = True                
-                else:
-                    if int(nminute) > int(minute) and int(nhour) == int(hour):
+                elif int(nhour) == int(hour):
+                    if int(nminute) > int(minute):
                         expired = True  
- 
+  
     return expired
+
+def expireEvent(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "UPDATE events set status='Expired' where id='"+str(eventid)+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
+
+def unexpireEvent(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "UPDATE events set status='Ongoing' where id='"+str(eventid)+"'"
+    c.execute(command)
+    conn.commit()
+    conn.close()
         
 def eventSearch(keyword, keyloc):
     data = getEventData()
@@ -223,7 +242,7 @@ def eventSearch(keyword, keyloc):
 def getCreated(username):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "select * from 'events' where username='"+username+"'"
+    command = "select * from 'events' where username='"+username+"' AND (status='Ongoing' OR status='Expired')"
     c.execute(command)
     created = c.fetchall()
     conn.commit()
@@ -317,6 +336,21 @@ def remMember(eventid, username):
     conn.commit()
     conn.close()
 
+def getOngoingEvents():
+    conn=sqlite3.connect("databases/events.db")
+    c=conn.cursor()
+    command="select * from events where status='Ongoing'"
+    c.execute(command)
+    events = c.fetchall()
+    conn.close()
+    return events
+
+def updateExpired():
+    temp = getOngoingEvents()
+    for a in temp:
+        if expired(a[0]):
+            expireEvent(int(a[0]))
+
 def removeExpired(events):
     temp = []
     for a in events:
@@ -339,11 +373,17 @@ def getAccepted(username):
     c.execute(command)
     command = "select * from '"+username+"'"
     c.execute(command)
+    events = getEventData()
     tabledata=c.fetchall()
     accepted = []
     for data in tabledata:
-        accepted.append(data[0])
-    return removeExpired(accepted)
+        if events[int(data[0])-1][8]=="Accepted" or events[int(data[0])-1][8]=="Expired":
+            accepted.append(int(data[0]))
+        elif events[int(data[0])-1][8]=="Removed":
+            command = "delete from '"+username+"' where event='"+str(int(data[0]))+"'"
+            c.execute(command)
+            conn.commit()
+    return accepted
 
 def getAcceptedPast(username):
     conn = sqlite3.connect("databases/events.db")
@@ -353,14 +393,11 @@ def getAcceptedPast(username):
     command = "select * from '"+username+"'"
     c.execute(command)
     tabledata=c.fetchall()
-    allaccepted = []
-    for data in tabledata:
-        allaccepted.append(data[0])
-    currentaccepted = getAccepted(username)
+    events = getEventData()
     pastaccepted = []
-    for x in allaccepted:
-        if x not in currentaccepted:
-            pastaccepted.append(x)
+    for x in tabledata:
+        if events[int(x[0])-1][8]=="Expired":
+            pastaccepted.append(x[0])
     return pastaccepted
 
 def getEventAccepted(eventid):

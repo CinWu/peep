@@ -282,6 +282,7 @@ def events(eventname=None):
     phone=""
     created=""
     accepted=""
+    manager.updateExpired()
     data = manager.getEventData()
     if eventname==None:
         if request.method == "POST":
@@ -289,8 +290,8 @@ def events(eventname=None):
             at = request.form['at']
             data = manager.eventSearch(peep, at)        
             #if data is null return some text
+        data = manager.getOngoingEvents()
         data.sort(key=lambda x:x[6])
-        data = manager.removeExpired(data)
         events = manager.getEventData()
         if 'username' in session:
             username = session['username']
@@ -404,7 +405,9 @@ def eventEdit(event=None):
             access = True
             if username == editevent[3]:
                 if request.method == "POST":
-                    
+                    if "remove" in request.form:
+                        manager.remEvent(event)
+                        return redirect("/events")
                     name = request.form["name"]
                     location = request.form["location"]
                     description = request.form["description"]
