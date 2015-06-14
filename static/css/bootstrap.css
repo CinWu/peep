@@ -2965,6 +2965,8 @@ select[multiple].form-group-lg .form-control {
   }
 }
 .btn {
+    color: #fff;
+    background-color: #dd4814;
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;

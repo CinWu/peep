@@ -23,10 +23,11 @@
 	    <tr> <td width='10%'> <b> Location: </b></td>
 	      <td><input required id="address" type="text" name="location" value="{{editevent[5]}}" maxlength="30"></input> <br>
 	    <div id="map-canvas"></div></td></tr>
-	    </table>
-	  <button type="submit">Update</button><br>
-	  <button><a href="/events/{{editevent[0]}}">Cancel</a></button><br><br>
-	  <button type="submit" name="remove">Remove Event</button><br><br><br><br><br><br>
+	  </table>
+	  <table><tr><td>
+	  <button type="submit" class="btn" >Update</button></td><td>
+	  <button color="white" class="btn"><a href="/events/{{editevent[0]}}">Cancel</a></button></td><td>
+	  <button class="btn" type="submit" name="remove">Remove Event</button></td></tr></table><br><br><br><br><br><br>
 	</div>
       </div>
       
