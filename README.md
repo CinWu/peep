@@ -30,7 +30,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 ######Finish by Weekend of May 17th
 
   -  [x] Notifications/Requests
-  -  [ ] User Calendars
+  -  [x] User Calendars
   -  [ ] Set up a server
 
 ######Bug fixes, finalize project by Weekend of May 24th
