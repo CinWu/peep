@@ -20,7 +20,6 @@ def getProfilePath():
     ids=getIDs()
     user=request.form["query"]
     path="profile/"+user
-    print path
     return path
 
 def validateEntry(entry):
@@ -128,7 +127,6 @@ def getEventData():
     c.execute(command)
     tabledata=c.fetchall()
     conn.close()
-#    print tabledata
     return tabledata
 
 ##Get data of one event
@@ -296,13 +294,11 @@ def makeRequest(eventid,username,host):
     command = "insert into 'requests' (eventid, sender, receiver) values ("+eventid+",'"+username+"','"+host+"')"
     data = getEventRequests(eventid)
     add = True
-    print data
     for r in data:
         if r[2]==username:
             add = False
             break
     if add:
-        print "inserting into database"
         c.execute(command)
         conn.commit()
     conn.close()
@@ -386,7 +382,6 @@ def getAccepted(username):
     tabledata=c.fetchall()
     accepted = []
     for data in tabledata:
-        print events[int(data[0])-1]
         if events[int(data[0])-1][8]=="Ongoing" or events[int(data[0])-1][8]=="Expired":
             accepted.append(int(data[0]))
         elif events[int(data[0])-1][8]=="Removed":
@@ -413,7 +408,6 @@ def getAcceptedPast(username):
 def getEventAccepted(eventid):
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    print int(eventid)
     command = "select * from '"+str(eventid)+"'"
     c.execute(command)
     tabledata=c.fetchall()
@@ -458,7 +452,6 @@ def updateEvent(event,name,location,description,tags,date):
     conn=sqlite3.connect("databases/events.db")
     c = conn.cursor()
     command = "update events set eventname='"+name+"',description='"+description+"',location='"+location+"',tags='"+tags+"',time='"+date+"' where id='"+event+"'"
-    print command
     c.execute(command)
     conn.commit()
     conn.close()
@@ -467,14 +460,10 @@ def updateEvent(event,name,location,description,tags,date):
 
 def getTags(eventid):
     event  = getThisEventData(str(eventid))
-    print "BLAH" + str(eventid)
-    print event
     tagstring = str(event[7])
     tags = tagstring.split(" ")
     for a in tags:
         a.strip(',')
-    print "TAGS FOR " + event[2]
-    print tags
     return tags
 
 def getAllTags():
