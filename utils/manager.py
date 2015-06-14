@@ -350,6 +350,15 @@ def getOngoingEvents():
     conn.close()
     return events
 
+def getRemovedEvents():
+    conn=sqlite3.connect("databases/events.db")
+    c=conn.cursor()
+    command="select * from events where status='Removed'"
+    c.execute(command)
+    events = c.fetchall()
+    conn.close()
+    return events
+
 def updateExpired():
     temp = getOngoingEvents()
     for a in temp:

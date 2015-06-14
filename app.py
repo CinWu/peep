@@ -307,9 +307,9 @@ def events(eventname=None,tag=None):
         
     else:
         newdata=[]
+        if int(eventname) > len(data) or manager.getThisEventData(eventname) in manager.getRemovedEvents():
+            return render_template("error.html",reason="This event does not exist",username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events)
         eaccepted = manager.getEventAccepted(eventname)
-        if int(eventname) > len(data):
-            return render_template("error.html")
         newdata.append(data[int(eventname)-1])
         ##no button if user is not logged in
         button = "none"
