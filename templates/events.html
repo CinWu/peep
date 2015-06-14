@@ -14,11 +14,11 @@
   {% elif button=="creator" %}
   You created this event. &nbsp &nbsp<a href="/eventedit/{{data[0][0]}}">Edit</a>
   {% elif button=="request" %}
-  <input type="submit" name="request" value="Request to Join">
+  <input type="submit" class="btn" name="request" value="Request to Join">
   {% elif button=="pending" %}
-  <input type="submit" name="cancel" value="Cancel">
+  <input type="submit" class="btn" name="cancel" value="Cancel">
   {% else %}
-  <input type="submit" name="leave" value="Leave Event">
+  <input type="submit" class="btn" name="leave" value="Leave Event">
   {% endif %}
 </form>
 <hr>
