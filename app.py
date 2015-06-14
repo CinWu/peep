@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session,redirect,url_for, flash
 import csv
+import re
 import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
@@ -93,10 +94,16 @@ def create():
                 date=request.form["date"]+" "+request.form["time"]
                 description = request.form["description"]
                 dtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                tags = request.form["tags"]
-                requestlist = tags.split(',')
+                temptags = request.form["tags"]
+                requestlist = temptags.split(',')
+                finaltags = []
                 for x in requestlist:
-                    x.strip()
+                    x = x.strip('#')
+                    if x not in finaltags:
+                        finaltags.append(x)
+                tags = ""
+                for x in finaltags:
+                    tags = tags+" "+x
                 manager.addEvent(dtime,event,username,description,location,date,tags)
                 return redirect("/events")
         else:
@@ -402,7 +409,16 @@ def eventEdit(event=None):
                     name = request.form["name"]
                     location = request.form["location"]
                     description = request.form["description"]
-                    tags = request.form["tags"]
+                    temptags = request.form["tags"]
+                    requestlist = temptags.split(',')
+                    finaltags = []
+                    for x in requestlist:
+                        x = x.strip('#')
+                        if x not in finaltags:
+                            finaltags.append(x)
+                    tags = ""
+                    for x in finaltags:
+                        tags = tags+" "+x
                     date=request.form["date"]+" "+request.form["time"]
                     manager.updateEvent(event,name,location,description,tags,date)
                     return redirect("/events/"+event)
