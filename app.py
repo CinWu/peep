@@ -34,9 +34,7 @@ def home():
         pending.reverse()
         pastevents=manager.getAcceptedPast(username)
         pastevents.reverse()
-        print pastevents
         if request.method == 'POST':
-            print request.form
             if request.form["status"]=="approve":
                 user = request.form["user"]
                 event = request.form["event"]
@@ -99,7 +97,6 @@ def create():
                 requestlist = tags.split(',')
                 for x in requestlist:
                     x.strip()
-                print requestlist
                 manager.addEvent(dtime,event,username,description,location,date,tags)
                 return redirect("/events")
         else:
@@ -151,13 +148,10 @@ def register():
             if email != repemail:
                 registered=False
                 reason = "Emails do not match"
-                print "Emails do not match"
 
             if password != reppassword:
                 registered=False
                 reason = "Passwords do not match"
-                print "Passwords do not match"
-
 
             conn = sqlite3.connect("databases/users.db")
             c = conn.cursor()
@@ -183,7 +177,6 @@ def register():
                 insinfo="insert into uinfo values ('"+username+"','"+password+"','"+first+"','"+last+"','"+phone+"','"+email+"','"+facebook+"')"
                 c.execute(insinfo)
                 conn.commit()
-                print 'Username and Password have been recorded as variables'
                 manager.userNotifTable(username)
             else:
                 print "Failure to register"
@@ -242,7 +235,6 @@ def login():
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
             events = manager.getEventData()
-            print events
             return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events) 
         return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids, events=events)
     else:
@@ -310,13 +302,14 @@ def events(eventname=None,tag=None):
         if tag:
             data = manager.getEventByTag(tag)
             return render_template('events.html',data=data, username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events,tags=tags,oneevent=False)
-        return redirect("/events")
+        if tag == None:
+            return redirect("/events")
         
     else:
         newdata=[]
+        if int(eventname) > len(data) or manager.getThisEventData(eventname) in manager.getRemovedEvents():
+            return render_template("error.html",reason="This event does not exist",username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events)
         eaccepted = manager.getEventAccepted(eventname)
-        if int(eventname) > len(data):
-            return render_template("error.html")
         newdata.append(data[int(eventname)-1])
         ##no button if user is not logged in
         button = "none"
@@ -325,16 +318,11 @@ def events(eventname=None,tag=None):
                 if "request" in request.form:
                     eventdata = manager.getEventData()
                     manager.makeRequest(eventname,username,eventdata[int(eventname)-1][3])
-                    print username+" requests to join"
                 if "cancel" in request.form:
                     manager.removeRequest(eventname,username)
-                    print username+" cancels membership"
                 if "leave" in request.form:
                     manager.remMember(eventname,username)
-                    print username+" leaves event"
                     return redirect("/events/"+eventname)
-            print "THIS SHOULD BE A NUMBER"
-            print eventname
             if manager.getThisEventData(eventname)[3]==username:
                 button = "creator"
             else:
@@ -416,7 +404,6 @@ def eventEdit(event=None):
                     description = request.form["description"]
                     tags = request.form["tags"]
                     date=request.form["date"]+" "+request.form["time"]
-                    print "BLAH"
                     manager.updateEvent(event,name,location,description,tags,date)
                     return redirect("/events/"+event)
                 return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,events=events,editevent=editevent)
