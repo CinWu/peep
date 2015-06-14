@@ -143,8 +143,6 @@ def getThisEventData(eventid):
         return []
     return data[0]
 
-<<<<<<< HEAD
-=======
 ##Get the event name
 def getEvent(eventid):
     conn = sqlite3.connect("databases/events.db")
@@ -164,7 +162,6 @@ def size():
     conn.close()
     return len(data)
 
->>>>>>> 5039738934289363f31a695ffea8b42ca6540031
 ##check if event is passed
 def expired(eventid):
     expired = False
