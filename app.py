@@ -287,7 +287,6 @@ def events(eventname=None,tag=None):
     accepted=""
     manager.updateExpired()
     data = manager.getEventData()
-<<<<<<< HEAD
     tags = manager.getAllTags()
     events = manager.getEventData()
     if 'username' in session:
