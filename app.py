@@ -412,6 +412,34 @@ def eventEdit(event=None):
                 return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,events=events,editevent=editevent)
     return redirect("/events")
 
+@app.errorhandler(400)
+def error400(e):
+    if 'username' in session:
+        loggedin=True
+        username=session['username']
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
+        created = manager.getCreated(username)
+        accepted= manager.getAccepted(username)
+        events = manager.getEventData()
+    return render_template('error.html', reason="(Psst. Bad request!)",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events), 400
+
+@app.errorhandler(404)
+def error404(e):
+    if 'username' in session:
+        loggedin=True
+        username=session['username']
+        first = manager.getFirst(username)
+        last = manager.getLast(username)
+        email = manager.getEmail(username)
+        phone = manager.getPhone(username)
+        created = manager.getCreated(username)
+        accepted= manager.getAccepted(username)
+        events = manager.getEventData()
+    return render_template('error.html', reason="Are you sure this page exists?",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events), 404
+
 if __name__ == "__main__":
     app.debug = True
     app.secret_key = "peep"
