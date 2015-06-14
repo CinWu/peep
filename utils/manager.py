@@ -143,6 +143,28 @@ def getThisEventData(eventid):
         return []
     return data[0]
 
+<<<<<<< HEAD
+=======
+##Get the event name
+def getEvent(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select eventname from 'events' where id='"+str(eventid)+"'"
+    c.execute(command)
+    data=c.fetchall()
+    conn.close()
+    return data
+
+def size():
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select * from 'events'"
+    c.execute(command)
+    data=c.fetchall()
+    conn.close()
+    return len(data)
+
+>>>>>>> 5039738934289363f31a695ffea8b42ca6540031
 ##check if event is passed
 def expired(eventid):
     expired = False
@@ -367,7 +389,8 @@ def getAccepted(username):
     tabledata=c.fetchall()
     accepted = []
     for data in tabledata:
-        if events[int(data[0])-1][8]=="Accepted" or events[int(data[0])-1][8]=="Expired":
+        print events[int(data[0])-1]
+        if events[int(data[0])-1][8]=="Ongoing" or events[int(data[0])-1][8]=="Expired":
             accepted.append(int(data[0]))
         elif events[int(data[0])-1][8]=="Removed":
             command = "delete from '"+username+"' where event='"+str(int(data[0]))+"'"

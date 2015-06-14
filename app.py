@@ -66,7 +66,8 @@ def about():
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
-        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted)
+        events = manager.getEventData()
+        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events)
     return render_template("about.html")
 
 @app.route("/create", methods=['GET', 'POST'])
@@ -74,6 +75,7 @@ def create():
     username = ""
     ids=manager.getIDs()
     data = manager.getEventData()
+
     if 'username' in session:
         loggedin=True
         username=session['username']
@@ -285,6 +287,7 @@ def events(eventname=None,tag=None):
     accepted=""
     manager.updateExpired()
     data = manager.getEventData()
+<<<<<<< HEAD
     tags = manager.getAllTags()
     events = manager.getEventData()
     if 'username' in session:
