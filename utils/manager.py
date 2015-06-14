@@ -391,7 +391,7 @@ def getAccepted(username):
     tabledata=c.fetchall()
     accepted = []
     for data in tabledata:
-        if events[int(data[0])-1][8]=="Ongoing" or events[int(data[0])-1][8]=="Expired":
+        if events[int(data[0])-1][8]=="Ongoing":
             accepted.append(int(data[0]))
         elif events[int(data[0])-1][8]=="Removed":
             command = "delete from '"+username+"' where event='"+str(int(data[0]))+"'"
