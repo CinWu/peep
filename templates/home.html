@@ -25,7 +25,7 @@
               <thead>
                 <tr width="75px">
                   <th>#</th>
-                  <th></th>
+                  <th>Message</th>
                 </tr>
               </thead>
               <tbody id="items">
@@ -61,7 +61,8 @@
 	      <thead>
                 <tr>
                   <th width="75px">#</th>
-                  <th>Event</th>
+                  <th width="475px">Event</th>
+                  <th width="275px">Time of Event</th>
                 </tr>
               </thead>
               <tbody id="items">
@@ -72,11 +73,13 @@
 		  <td>
 		    <a href="/events/{{c[0]}}">{{c[2]}}</a><br>
 		  </td>
+		  <td>
+		    {{c[6]}}
+		  </td>
 		</tr>
 		{% endfor %}
 		{% if created|length == 0 %}
-		<tr width="75px"><td></td><td>You have no created events.</td></tr>
-		{% endif %}
+		<tr><td width="75px"></td><td>You have not created any events.</td><td></td></tr>{% endif %}
               </tbody>
 	    </table>
             <hr>
@@ -89,7 +92,8 @@
 	      <thead>
                 <tr>
                   <th width="75px">#</th>
-                  <th>Event</th>
+                  <th width="475px">Event</th>
+                  <th width="275px">Time of Event</th>
                 </tr>
               </thead>
               <tbody id="items">
@@ -100,11 +104,13 @@
 		  <td>
 		    <a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
 		  </td>
+		  <td>
+		    {{events[a|int-1][6]}}
+		  </td>
 		</tr>
 		{% endfor %}
 		{% if accepted|length == 0 %}
-		<tr width="75px"><td></td><td>You are not attending any events.</td></tr>
-		{% endif %}
+		<tr><td width="75px"></td><td>You are not attending events.</td><td></td></tr>{% endif %}
               </tbody>
 	    </table>
             <hr>
@@ -117,7 +123,8 @@
 	      <thead>
                 <tr>
                   <th width="75px">#</th>
-                  <th>Event</th>
+                  <th width="475px">Event</th>
+                  <th width="275px">Time of Event</th>
                 </tr>
               </thead>
               <tbody id="items">
@@ -128,10 +135,13 @@
 		  <td>
 		    <a href="/events/{{p[1]}}">{{events[p[1]-1][2]}}</a><br>
 		  </td>
+		  <td>
+		    {{events[p[1]-1][6]}}
+		  </td>
 		</tr>
 		{% endfor %}
 		{% if pending|length == 0 %}
-		<tr width="75px"><td></td><td>You have no pending events.</td></tr>{% endif %}
+		<tr><td width="75px"></td><td>You have no pending events.</td><td></td></tr>{% endif %}
               </tbody>
 	    </table>
             <hr>
@@ -144,7 +154,8 @@
 	      <thead>
                 <tr>
                   <th width="75px">#</th>
-                  <th>Event</th>
+                  <th width="475px">Event</th>
+                  <th width="275px">Time of Event</th>
                 </tr>
               </thead>
               <tbody id="items">
@@ -155,11 +166,14 @@
 		  <td>
 		    <a href="/events/{{a}}">{{events[a|int-1][2]}}</a><br>
 		  </td>
+		  <td>
+		    {{events[a|int-1][6]}}
+		  </td>
 		</tr>
 		{% endfor %}
 		{% if pastevents|length == 0 %}
-		<tr width="75px"><td></td><td>You have not attended any events.</td></tr>
-		{% endif %}
+		<tr><td width="75px"></td><td>You have not attended events.</td><td></td></tr>{% endif %}
+		
               </tbody>
 	    </table>
             <hr>
