@@ -245,7 +245,7 @@ def login():
             facebook=manager.getDefaultPath(username)
             events = manager.getEventData()
             return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events, facebook=facebook) 
-        return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids, events=events)
+        return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids)
     else:
         return render_template("login.html", loggedin=False, ids=ids)
 
