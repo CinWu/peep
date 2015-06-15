@@ -11,14 +11,14 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
   -  [x] Profile Page
   -  [x] Search Results Page
   -  [x] Events Page
-- [] Frontend
+- [x] Frontend
   -  [x] Base CSS (Bootstrap)
-  -  [] User Interaction (Javascript)
-- [] Backend
+  -  [x] User Interaction (Javascript)
+- [x] Backend
   -  [x] Database  
   -  [x] Profile Register
   -  [x] Login/Logout
-  -  [ ] Facebook API
+  -  [x] Facebook API
 
 ######Finish by Weekend of May 10th
 
@@ -31,7 +31,7 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 
   -  [x] Notifications/Requests
   -  [x] User Calendars
-  -  [ ] Set up a server
+  -  [x] Set up a server
 
 ######Bug fixes, finalize project by Weekend of May 24th
 
