@@ -56,6 +56,7 @@ def getItem(table,ovalue,oindex,rindex):
     command = "select * from '" + table +"'"
     c.execute(command)
     tabledata=c.fetchall()
+    value = ""
     for d in tabledata:
         if ovalue==d[oindex]:
             value = d[rindex]
