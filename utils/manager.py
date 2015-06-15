@@ -463,6 +463,17 @@ def getEventAccepted(eventid):
         accepted.append(a[0])
     return accepted
 
+def getEventAcceptedFB(eventid):
+    conn = sqlite3.connect("databases/events.db")
+    c = conn.cursor()
+    command = "select * from '"+str(eventid)+"'"
+    c.execute(command)
+    tabledata=c.fetchall()
+    fb = []
+    for a in tabledata:
+        fb.append(getDefaultPath(a[0]))
+    return fb
+
 def updateName(username,first,last):
     conn=sqlite3.connect("databases/users.db")
     c = conn.cursor()

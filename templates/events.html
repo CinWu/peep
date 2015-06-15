@@ -58,7 +58,13 @@ Why don't you try <a href='/create'>creating</a> one?
 <h5> Attending </h5>
 <ul>
 {% for p in eaccepted %}
-<li><a href="/profile/{{p}}">{{p}}</a></li>
+<li>
+{% if efacebook[loop.index0] %}
+<img src="http://graph.facebook.com/{{efacebook[loop.index0]}}/picture?width=50&height=50">
+{% else %}
+<img src="/static/peep.jpg" width="50" height="50">
+{% endif %}
+&nbsp <a href="/profile/{{p}}">{{p}}</a></li>
 {% endfor %}
 </ul>
 

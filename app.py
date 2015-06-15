@@ -35,6 +35,7 @@ def home():
         pending.reverse()
         pastevents=manager.getAcceptedPast(username)
         pastevents.reverse()
+        facebook=manager.getDefaultPath(username)
         if request.method == 'POST':
             if request.form["status"]=="approve":
                 user = request.form["user"]
@@ -51,7 +52,7 @@ def home():
                 manager.removeRequest(event, user)
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
-        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email, pastevents=pastevents)
+        return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email, facebook=facebook,pastevents=pastevents)
     return render_template("home.html")
 
 @app.route("/about", methods=['GET','POST'])
@@ -66,7 +67,8 @@ def about():
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
         events = manager.getEventData()
-        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events)
+        facebook=manager.getDefaultPath(username)
+        return render_template("about.html",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,facebook=facebook)
     return render_template("about.html")
 
 @app.route("/create", methods=['GET', 'POST'])
@@ -84,6 +86,7 @@ def create():
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
+        facebook=manager.getDefaultPath(username)
         if request.method=='POST':
             if request.form["submit"] == "Go":
                 if manager.getProfilePath() != "profile/":
@@ -107,7 +110,7 @@ def create():
                 manager.addEvent(dtime,event,username,description,location,date,tags)
                 return redirect("/events")
         else:
-            return render_template("makeEvents.html",loggedin=loggedin,ids=ids,username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted,events=data)
+            return render_template("makeEvents.html",loggedin=loggedin,ids=ids,username=username,first=first,last=last,phone=phone,email=email,created=created,accepted=accepted,events=data, facebook=facebook)
     else:
         return render_template("makeEvents.html",loggedin=False,ids=ids)
   
@@ -241,8 +244,9 @@ def login():
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
+            facebook=manager.getDefaultPath(username)
             events = manager.getEventData()
-            return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events) 
+            return render_template("login.html",username=username,loggedin=True,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events, facebook=facebook) 
         return render_template("login.html", loggedin=loggedin, username=username, reason=reason, ids=ids, events=events)
     else:
         return render_template("login.html", loggedin=False, ids=ids)
@@ -258,6 +262,7 @@ def profile(username=None):
         pphone = manager.getPhone(username)
         taccepted = manager.getAccepted(username)
         paccepted = []
+        pfid = manager.getDefaultPath(username)
         for a in taccepted:
             paccepted.append(int(a))
         if 'username' in session:
@@ -268,8 +273,9 @@ def profile(username=None):
             phone = manager.getPhone(ausername)
             created = manager.getCreated(ausername)
             accepted= manager.getAccepted(ausername)
-            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail, username=ausername, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,paccepted=paccepted, events=data)
-        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail,paccepted=paccepted,events=data)
+            facebook=manager.getDefaultPath(ausername)
+            return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail, username=ausername, first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,paccepted=paccepted, events=data,facebook=facebook,pfid=pfid)
+        return render_template("profile.html",pusername=username,pfirst=pfirst,plast=plast,pphone=pphone,pemail=pemail,paccepted=paccepted,events=data, pfid=pfid)
     else:
         return redirect("/")
 
@@ -296,6 +302,8 @@ def events(eventname=None,tag=None):
             phone = manager.getPhone(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
+            facebook=manager.getDefaultPath(username)
+            
     if eventname==None:
         data = manager.getOngoingEvents()
         if request.method == "POST":
@@ -304,19 +312,20 @@ def events(eventname=None,tag=None):
             data = manager.eventSearch(peep, at)        
             #if data is null return some text
         data.sort(key=lambda x:x[6])
-        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,tags=tags, oneevent=False)
+        return render_template('events.html', data=data, search=True,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,tags=tags, oneevent=False, facebook=facebook)
     elif eventname=="tags":
         if tag:
             data = manager.getEventByTag(tag)
-            return render_template('events.html',data=data, username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events,tags=tags,oneevent=False)
+            return render_template('events.html',data=data, username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events,tags=tags,oneevent=False,facebook=facebook)
         if tag == None:
             return redirect("/events")
         
     else:
         newdata=[]
         if int(eventname) > len(data) or manager.getThisEventData(eventname) in manager.getRemovedEvents():
-            return render_template("error.html",reason="This event does not exist",username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events)
+            return render_template("error.html",reason="This event does not exist",username=username, first=first, last=last, email=email, phone=phone,created=created,accepted=accepted,events=events, facebook=facebook)
         eaccepted = manager.getEventAccepted(eventname)
+        efacebook = manager.getEventAcceptedFB(eventname)
         newdata.append(data[int(eventname)-1])
         ##no button if user is not logged in
         button = "none"
@@ -339,7 +348,7 @@ def events(eventname=None,tag=None):
                 requested = manager.getRequesters(eventname)
                 if username in requested:
                     button = "pending"
-        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted, events=data, tags=tags, oneevent=True)
+        return render_template('events.html', button = button, data=newdata, eaccepted=eaccepted,efacebook=efacebook,username=username,first=first,last=last,phone=phone,email=email, created=created, accepted=accepted, events=data, tags=tags, oneevent=True, facebook=facebook)
 
 @app.route("/edit",methods=['GET','POST'])
 @app.route("/edit/<user>", methods=['GET', 'POST'])
@@ -354,7 +363,7 @@ def editProfile(user=None,field=None):
                 last = manager.getLast(username)
                 email = manager.getEmail(username)
                 phone = manager.getPhone(username)
-                facebook = manager.getFacebook(username)
+                facebook=manager.getDefaultPath(username)
                 created = manager.getCreated(username)
                 accepted= manager.getAccepted(username)
                 events = manager.getEventData()
@@ -378,7 +387,7 @@ def editProfile(user=None,field=None):
                     return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,field=field,user=user,events=events)
                 else:
                     access = False
-                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,user=user,events=events)
+                    return render_template("profileEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,user=user,events=events,facebook=facebook)
 
         else:
             return redirect("/profile/"+username)
@@ -395,7 +404,7 @@ def eventEdit(event=None):
             last = manager.getLast(username)
             email = manager.getEmail(username)
             phone = manager.getPhone(username)
-            facebook = manager.getFacebook(username)
+            facebook=manager.getDefaultPath(username)
             created = manager.getCreated(username)
             accepted= manager.getAccepted(username)
             events = manager.getEventData()
@@ -425,7 +434,7 @@ def eventEdit(event=None):
                 return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,facebook=facebook,created=created,accepted=accepted,events=events,editevent=editevent)
             else:
                 access = False
-                return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,events=events,editevent=editevent)
+                return render_template("eventEdit.html",access=access,username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted,events=events,editevent=editevent,facebook=facebook)
     return redirect("/events")
 
 @app.errorhandler(400)
@@ -439,8 +448,9 @@ def error400(e):
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
+        facebook=manager.getDefaultPath(username)
         events = manager.getEventData()
-    return render_template('error.html', reason="(Psst. Bad request!)",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events), 400
+    return render_template('error.html', reason="(Psst. Bad request!)",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,facebook=facebook), 400
 
 @app.errorhandler(404)
 def error404(e):
@@ -453,8 +463,9 @@ def error404(e):
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
+        facebook=manager.getDefaultPath(ausername)
         events = manager.getEventData()
-    return render_template('error.html', reason="Are you sure this page exists?",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events), 404
+    return render_template('error.html', reason="Are you sure this page exists?",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,facebook=facebook), 404
 
 if __name__ == "__main__":
     app.debug = True
