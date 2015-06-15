@@ -181,12 +181,40 @@
 	</div>
 	
 	
+    </div>
+    
+    {% else %}
+    <h4>Check out the latest events!</h4>
+    <ul class="list-group">
+      <div id="list-events">
+      <table class="table table-hover" id="myTable">
+        <thead>
+          <tr width="75px">
+            <th>Event</th>
+            <th>Date</th>
+	    <th>Location</th>
+	    <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="items">
+	  {% for e in data %}
+	  <tr>
+	    <td width="100px"><a href="/events/{{e[0]}}">{{e[2]}}</a></td>
+	    <td>
+	      {{e[6]}}
+	    </td>
+	    <td>
+	      {{e[5]}}
+	    </td>
+	    <td>
+	      {{e[4]}}
+	    </td>
+	  </tr>
+	  {% endfor %}
+
+        </tbody>
+      </table>
       </div>
- 
-    {% endif %}
-
+      {% endif %}
+      {% endblock %}
   </div>
-  
-
-{% endblock %}
-{% block text %}{% endblock %}

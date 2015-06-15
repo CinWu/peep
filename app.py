@@ -4,20 +4,18 @@ import re
 import sqlite3,unicodedata
 from utils import manager
 from datetime import datetime
-##install facebook-sdk
-#import facebook
-
-FACEBOOK_APP_ID = '378920438974120'
-FACEBOOK_APP_SECRET = 'b6062e3515963deff605a9538c45f675'
-##Testing
-#ACCESS_TOKEN = 'CAAFYoEopxqgBAJiWUc1J3HAGbQZBw8mOZAOgktaXBcWb9Okma9Lmyd5kGOdIhhVBlJEld6uimSVMu8QNaXe9HZAPBvCsXHtYs24GfZBkXpciSgFrdfCtQMPINJmdmSkM9ZCZCOLyI0VsJoHHoGhAZCkOvZC0ADRFQh6NDncYZC2GlzOWfnxCL5hHBL81EJFvLU3VhzyGaZCEsPcvk2L0jMd6hM2Y5R1dwi8SoZD'
 
 app = Flask(__name__)
 
+
+FACEBOOK_APP_ID = '378920438974120'
+FACEBOOK_APP_SECRET = 'b6062e3515963deff605a9538c45f675'
+
 @app.route("/",methods=['GET','POST'])
 def home():
-#    graph = facebook.GraphAPI(ACCESS_TOKEN)
-#    print graph.get_object('me')
+    data = manager.getOngoingEvents()
+    data.reverse()
+
     if 'username' in session:
         requests = manager.getRequests(session['username'])
         requests.reverse()
@@ -53,7 +51,7 @@ def home():
                 requests = manager.getRequests(session['username'])
                 requests.reverse()
         return render_template("home.html", session=session, requests=requests, created=created, accepted=accepted, pending=pending, events=events,username=username,first=first,last=last,phone=phone,email=email, facebook=facebook,pastevents=pastevents)
-    return render_template("home.html")
+    return render_template("home.html", data=data)
 
 @app.route("/about", methods=['GET','POST'])
 def about():

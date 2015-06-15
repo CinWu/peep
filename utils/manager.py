@@ -268,19 +268,16 @@ def eventSearch(keyword, keyloc):
                 desc = e[4].split(" ")
                 
                 for n in name:
-                    if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5):
+                    if ( keyword.lower() in n.lower() and len(keyword) >= len(n)*.5) and keyloc.lower() in e[5].lower():
                         res.append(e)
                 for t in tags:
                     ##really bad search. Please edit.
-                    if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 
-                         and e not in res ):
+                    if ( keyword.lower() in t.lower() and len(keyword) >= len(t)*.5 and keyloc.lower() in e[5].lower() and e not in res ):
                         res.append(e)
                 for d in desc:
-                    if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 
-                         and e not in res ):
+                    if ( keyword.lower() in d.lower() and len(keyword) >= len(d)*.5 and keyloc.lower() in e[5].lower() and e not in res ):
                         res.append(e)
-                if ( keyloc.lower() in e[5].lower() and e not in res ): 
-                    res.append(e)
+
                     
     return res
 
