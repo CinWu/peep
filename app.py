@@ -99,9 +99,10 @@ def create():
                 requestlist = temptags.split(',')
                 finaltags = []
                 for x in requestlist:
-                    x = x.strip('#')
-                    if x not in finaltags:
-                        finaltags.append(x)
+                    x = x.split('#')
+                    for t in x:
+                        if t not in finaltags:
+                            finaltags.append(t)
                 tags = ""
                 for x in finaltags:
                     tags = tags+" "+x
