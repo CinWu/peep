@@ -38,3 +38,4 @@ Example: "Oh no, how can I finish such a large pizza by myself? Oh. I can just u
 ######Deployed Droplet and set up Flask with Gunicorn and Nginx on June 14 (Tyler)
 
 ######Domain name registered! Website now available at http://peepmeetups.mooo.com/
+######Video Uploaded: https://youtu.be/YyyHkdxvgSU
