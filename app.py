@@ -290,6 +290,7 @@ def events(eventname=None,tag=None):
     phone=""
     created=""
     accepted=""
+    facebook=""
     manager.updateExpired()
     data = manager.getEventData()
     tags = manager.getAllTags()
