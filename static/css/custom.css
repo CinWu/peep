@@ -44,3 +44,8 @@ hr {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
+
+#list-events {
+    height: 500px;
+    overflow: auto;
+}
