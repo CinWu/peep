@@ -4,6 +4,24 @@ from datetime import datetime
 from flask import Flask, render_template, request, session,redirect,url_for
 import csv, unicodedata, requests, sqlite3
 
+def check(val):
+    if ("'" in val):
+        temp = val.split("'");
+        i = 0
+        new = ""
+        for a in temp:
+            if i == 0:
+                temp[i] = a+"'"
+            elif i == len(temp)-1:
+                temp[i] = "'"+a
+            else:
+                temp[i] = "'"+a+"'"
+            new+=temp[i]
+            i+=1
+        return new
+    else:
+        return val
+
 def getIDs():
     ids=[]
     conn = sqlite3.connect("databases/users.db")
@@ -86,10 +104,10 @@ def userNotifTable(username):
 def addEvent(datetime,event,user,desc,loc,time,tags):    
     conn = sqlite3.connect("databases/events.db")
     c = conn.cursor()
-    command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags,status) VALUES ('"+datetime+"','"+event+"','"+user+"','"+desc+"','"+loc+"','"+time+"','"+tags+"','Ongoing')"
+    command = "INSERT INTO events (datetime,eventname,username,description,location,time,tags,status) VALUES ('"+datetime+"','"+check(event)+"','"+user+"','"+check(desc)+"','"+check(loc)+"','"+time+"','"+check(tags)+"','Ongoing')"
     c.execute(command)
     conn.commit()
-    c.execute("select id from events where eventname='"+event+"' and datetime='"+datetime+"' and username='"+user+"'")
+    c.execute("select id from events where eventname='"+check(event)+"' and datetime='"+datetime+"' and username='"+user+"'")
     data=c.fetchall()
     idnum= int(data[0][0])
     command = "CREATE TABLE IF NOT EXISTS '" + str(idnum) +"' (username text, date text)"
