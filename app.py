@@ -462,7 +462,7 @@ def error404(e):
         phone = manager.getPhone(username)
         created = manager.getCreated(username)
         accepted= manager.getAccepted(username)
-        facebook=manager.getDefaultPath(ausername)
+        facebook=manager.getDefaultPath(username)
         events = manager.getEventData()
     return render_template('error.html', reason="Are you sure this page exists?",username=username,first=first,last=last,email=email,phone=phone,created=created,accepted=accepted, events=events,facebook=facebook), 404
 
